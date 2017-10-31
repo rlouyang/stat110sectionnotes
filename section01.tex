@@ -1,0 +1,174 @@
+\documentclass{article}
+
+\def\sectionnumber{1}
+\def\sectiontitle{Counting and Story Proofs}
+
+% Set this =0 to hide, =1 to show
+\def\showanswers{1}
+
+\usepackage{common}
+
+\begin{document}
+
+\header
+
+\section{Welcome to Stat 110!}
+
+\subsection{Richard Ouyang}
+
+\begin{description}
+
+\item[Email] rouyang@college.harvard.edu
+
+\item[Section Time] Thursdays 12 -- 1 pm, Sever 112
+
+\item[Office Hours] Wednesdays 7 -- 9 PM, Leverett Dining Hall
+
+\end{description}
+
+\subsection{Catherine Li}
+
+\begin{description}
+
+\item[Email] catherineli@college.harvard.edu
+
+\item[Section Time] Wednesdays 1 -- 2 PM, SC 705
+
+\item[Office Hours] Wednesdays 7 -- 9 PM, Leverett Dining Hall
+
+\end{description}
+
+\section{Some tips on doing well}
+
+The key to doing well in Stat 110 is undoubtedly to practice, practice, practice! Unlike a lot of other classes you may have taken where the focus is on your understanding of concepts, in Stat 110 you need to take it one step further and understand how to apply the fundamental concepts to problems. In fact, exams in
+this class consist solely of problems; that means no strictly ”conceptual” questions. Luckily, Prof.~Blitzstein provides a plethora of problems, both in the textbook and in the form of ``Strategic Practice" \dots utilize these to your advantage!
+
+That being said, make sure you also spend adequate time reviewing class material. It's tempting to dive straight into your problem sets and try to get them done as quickly as possible, but you want to actually make a diligent, concerted effort to understand the material before working on problems. Otherwise you will end up learning how to solve certain types of problems instead of gaining the insight needed to solve new, unfamiliar problems (like on an exam).
+
+One of the best ways to review concepts is to try to go over some derivations on your own. Doing so will give you a deep understanding of the connections between the many different ideas presented in this class. In addition, although Prof.~Blitzstein will say that he doesn't want to emphasize the math in this course, you need to be pretty comfortable with the math used in this class so that it isn't an obstacle. Doing derivations will inevitably force you to do a bit of nitty-gritty math so you feel more comfortable with it. This is pretty hard, especially if you haven't taken a proof-based math class before, so we will try to walk through some important derivations in section :)
+
+\section{Counting, Na\"{i}ve Definition of Probability}
+
+\begin{description}
+
+\item[Multiplication rule] If experiment A has $a$ possible outcomes, and for each outcome of A, experiment B has $b$ possible outcomes, the total number of possible outcomes is $ab$. This can only be used when the number of choices at each step doesn't depend on the previous choices!
+
+\item[Na\"{i}ve definition of probability] States that the probability of an event A is simply the number of outcomes where A happens divided by the total number of possible outcomes. This can only be used when all outcomes are equally likely.
+
+\end{description}
+
+How many ways are there to:
+
+\begin{itemize}
+
+\item Select $k$ items out of a group of $n$ with replacement, order matters? 
+
+\hide{$n^k$}
+
+\item Select $k$ items out of a group of $n$ without replacement, order matters ($k \leq n$)? 
+
+\hide{$\frac{n!}{(n - k)!}$}
+
+\item Select $k$ items out of a group of $n$ with replacement, order doesn't matter? 
+
+\hide{$\binom{n + k - 1}{k} = \binom{n + k - 1}{n - 1}$ (Bose-Einstein with $n$ urns and $k$ identical balls)}
+
+\item Select $k$ items out of a group of $n$ without replacement, order doesn't matter ($k \leq n$)? 
+
+\hide{$\binom{n}{k} = \binom{n}{n - k}$}
+
+\item Distribute $k$ different balls among $n$ different bins? 
+
+\hide{$n^k$}
+
+\item Distribute $k$ identical balls among $n$ different bins? 
+
+\hide{$\binom{n + k - 1}{k}$}
+
+\end{itemize}
+
+1. (a) To play Powerball, you must match five distinct white balls chosen randomly from $\{1, 2, \dots, 69\}$ as well as a single ``powerball" which can be any of $\{1, 2, \dots, 26\}$. What is the probability you hit the jackpot
+(when all balls match exactly)?
+
+\hide{There are $\binom{69}{5}$ possibilities for the white balls and 26 possibilities for the powerball. By the multiplication
+rule there are $26\binom{69}{5} = 292,201,338$ possible drawings. There is only one combination that will
+allow you to win the jackpot, and each combination is equally likely by symmetry, so by the na\"{i}ve definition the desired probability is $\boxed{\frac{1}{26\binom{69}{5}} = \frac{1}{292,201,338}}$.}
+
+(b) What is the probability you match exactly three white balls but not the powerball?
+
+\hide{(b) There are still $26\binom{69}{5} = 292,201,338$ possible drawings. The number of white ball combinations giving
+exactly three matches is $\binom{5}{3}\binom{64}{2}$ since there are $\binom{5}{3}$ choices for the three matching white balls, while the remaining two non-matching white balls must come from any of the $69-5 = 64$ balls you didn't pick. Finally,
+there are $26 - 1 = 25$ choices for the powerball that don't match. Again by the naive definition, the desired
+probability is $\boxed{\frac{25\binom{5}{3}\binom{64}{2}}{26\binom{69}{5}} \approx \frac{1}{580}}$.}
+
+2. How many ways are there to arrange the letters in the word STATISTICS such that the two I's are next
+to each other?
+
+\hide{Simply merge the I's together into a single ``super-letter." Then we see the answer is $\boxed{\frac{9!}{3!3!}}$ since there are now 9 ``letters," and there are three identical S's and T's. Alternatively, you could note that there are $9$ possible positions for the two I's, and $\frac{8!}{3!3!}$ ways to arrange the remaining
+letters in each case, which gives the same answer by the multiplication rule.}
+
+3. The first round of the U.S.~Open singles tennis championship features 64 matches. If I randomly assign
+the 128 qualifiers to the bracket, what is the probability that all of the resultant matches have the number
+$n$ seed play the number $129 - n$ seed for all $n \in \{1, 2, \dots, 64\}$?
+
+\hide{The easiest way in my opinion to think about this would be to number the players from 1 to 128, randomly
+rearrange them, and pair up the players in the $2n - 1$ and $2n$ positions for $n \in \{1, 2, \dots, 64\}$ and have them play each other. To count the number of ways the desired situation would be satisfied, note that the most natural ordering would be $1,
+128, 2, 127, \dots, 64, 65$. But we can switch the number in position $2n - 1$ with the number in the $2n$ position for each $n$, which gives $2^{64}$ possibilities. Furthermore we can reorder the 64 pairs for another factor of $64!$. Of course there are $128!$ total possibilities, so by the multiplication rule and naive definition of probability
+the final answer is $\boxed{\frac{64! \cdot 2^{64}}{128!}}$.}
+
+4. How many ordered quadruples of non-negative integers $(a, b, c, d)$ satisfy $a + b + c + d = 16$? What if we restrict $\{a, b, c, d\}$ to be positive?
+
+\hide{This requires a sneaky application of Bose-Einstein. Think of $a, b, c, d$ as different boxes into which you are throwing 16 identical balls; the number of balls in each bin gives you the integer corresponding to that bin. Then by Bose-Einstein when we allow for zero balls, the answer is $\boxed{\binom{19}{3}}$. For the case where positive integers are required, we simply get rid of 4 of the balls (putting one each into $a, b, c, d$) and again by Bose-Einstein the answer is $\boxed{\binom{15}{3}}$.}
+
+
+% NOTE FROM CATHERINE: BH 1.14 is on the 2017 homework ... how about BH 1.10?
+
+% 5. (BH 1.14) You are ordering two pizzas. A pizza can be small, medium, large, or extra large, with any
+% combination of 8 possible toppings (getting no toppings is allowed, as is getting all 8). How many possibilities are there for your two pizzas?
+
+% \hide{There are 28 possible topping choices as there are $2^n$ possible subsets of a set of size $n$ (why?). With 4 size choices, the total number of choices for each pizza is $4 \cdot 2 \cdot 8 = 2^{10} = 1024$ by the multiplication rule. So there are 1024 ways to choose two identical pizzas. What if they're different? Since order doesn't matter, there
+% are $\binom{1024}{2} = \frac{1024\cdot 1023}{2}$ ways to choose two different pizzas. The answer is then $\boxed{1024 + \frac{1024\cdot 1023}{2} = 524,800}$.}
+
+5. (BH 1.10) To fulfill the requirements for a certain degree, a student can choose to take any 7 out of a list of 20 courses, with the constraint that at least 1 of the 7 courses must be a statistics course.  Suppose that 5 of the 20 courses are statistics courses.
+
+(a) How many choices are there for which 7 courses to take?
+
+\hide{There are $\binom{20}{7}$ ways to choose 7 courses if there are no constraints, but $\binom{15}{7}$ of these have no statistics courses. So the answer is $\boxed{\binom{20}{7} - \binom{15}{7} = 71085}$.}
+
+(b) Explain intuitively why the answer to (a) is \textit{not} $\binom{5}{1} \cdot \binom{19}{6}$.
+
+\hide{An incorrect argument would be ``there are $\binom{5}{1}$ ways to choose a statistics course and then $\binom{19}{6}$ choices for the remaining 6 courses." This is incorrect because it's possible to take more than one statistics course, and these possibilities would be counted twice. The true answer is much less than $\binom{5}{1} \cdot \binom{19}{6}$.}
+
+6. (*) How many ways are there to choose 5 numbers from the set $\{2000, 2001, \dots, 2017\}$ such that no two
+numbers are consecutive? Hint: Bose-Einstein
+
+\hide{You want to use Bose-Einstein with 5 ``walls" and 13 ``balls" (totaling to 18 positions), where each wall will be one of the 5 chosen numbers. But you want to require that there be at least one number between each pair of adjacent walls, so you can take out 4 of the balls, putting one into each gap. With 5 walls (6 bins) and 9 balls, Bose-Einstein gives us $\boxed{\binom{14}{5}}$.}
+
+\section{Birthday Problem}
+
+Problem statement: What is the probability that for $k$ randomly chosen people, at least one pair of them share a birthday, assuming all 365 days of the year are equally likely birthdays and ignoring February 29?
+
+\hide{See page 12 of BH for full explanation, but the probability is $\boxed{1 - \frac{365 \cdot 364 \cdots (365 - k + 1)}{365^k}}$.}
+
+7. (example from CS 124) Harrison throws $n$ balls into $k$ bins. He has pretty bad aim so each ball lands
+in a random bin. What is the probability that the first bin is empty? As $n$ and $k$ grow to infinity, what does this probability converge to in terms of $e$? Can you relate this setup to the birthday problem?
+
+\hide{Let's use complementary counting. Each ball has independent probability $\frac{k - 1}{k} = 1 - \frac{1}{k}$ probability of not landing in the first bin. So by the multiplication rule, the first bin is empty after $k$ balls are thrown
+with probability $\boxed{\left(1 - \frac{1}{k}\right)^n} = \left[\left(1 - \frac{1}{k}\right)^k\right]^\frac{n}{k}$ , which converges to $e^{-\frac{n}{k}}$ as $k$ and $n$ get large. You can think of the bins as being birthdays, and the balls as representing people. This problem is then equivalent to asking ``What is the probability that among $n$ people in a room, nobody has a particular birthday (e.g. January 1)?".}
+
+\section{Story Proofs}
+
+Story proofs are usually not directly tested on exams, but they are a really good way to get you comfortable with basic counting ideas.
+
+8. (a) Give a story proof for the identity $1 + 2 + ... + n = \binom{n + 1}{2}$ by considering the number of ways to choose two numbers from $\{1, 2, \dots, n + 1\}$.
+
+\hide{Consider picking two distinct integers from $1$ to $n + 1$ inclusive. The number of ways to do so is the RHS by definition. But we can also count the number of ways by breaking down into cases based on the larger number. If the larger number is 2, we have only one option for the other number (it must be 1). If the larger number is 3, we have two options for the other number (1 or 2). In general, for $2 \leq k \leq n+ 1$, the number of options for the smaller number when $k$ is the larger number is $k-1$; summing over all possible $k$ gives the LHS.}
+
+(b) Now give a story proof for the ``hockey-stick identity" $\binom{n + 1}{k + 1} = \sum_{j= k}^n \binom{j}{k}$ by extending the reasoning
+from the previous part.
+
+\hide{(b) The LHS gives the number of ways to pick $k + 1$ integers from the set $\{1, 2, \dots, n + 1\}$. Similar to above, we can break down into cases based on the largest integer (call it $m$, with $k + 1 \leq m \leq n + 1$). Given $m$, we
+must choose any $k$ of the integers $\{1, 2, \dots, m - 1\}$; there are $\binom{m - 1}{k}$ ways to do so. Summing over all possible
+m and indexing using $j := m + 1$ gives the RHS.}
+
+\end{document}

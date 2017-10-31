@@ -1,0 +1,106 @@
+\usepackage[margin=1in]{geometry}
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{latexsym, marvosym}
+\usepackage{pifont}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage[bottom]{footmisc}
+\usepackage{parskip}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{pencil}[theorem]{\noindent \ding{46}}
+\newtheorem{biohazard}[theorem]{\noindent \Biohazard}
+\usepackage{pdfpages}
+\usepackage{wrapfig}
+\usepackage{enumerate}
+\usepackage{xfrac}
+\usepackage{hyperref}
+\usepackage{enumerate}
+
+\newcommand{\lambdabold}{\mbox{\boldmath$\lambda$}}
+\newcommand{\mubold}{\mbox{\boldmath$\mu$}}           
+\newcommand{\thetabold}{\mbox{\boldmath$\theta$}}   
+\newcommand{\alphabold}{\mbox{\boldmath$\alpha$}}                 
+\newcommand{\betabold}{\mbox{\boldmath$\beta$}}
+\newcommand{\gammabold}{\mbox{\boldmath$\gamma$}}
+            
+\newcommand{\noin}{\noindent}    
+\newcommand{\logit}{\textrm{logit}} 
+\newcommand{\var}{\textrm{Var}}
+\newcommand{\cov}{\textrm{Cov}} 
+\newcommand{\corr}{\textrm{Corr}} 
+\newcommand{\SD}{\textrm{SD}} 
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Bern}{\textrm{Bern}}
+\newcommand{\Bin}{\textrm{Bin}}
+\newcommand{\Beta}{\textrm{Beta}}
+\newcommand{\Gam}{\textrm{Gamma}}
+\newcommand{\Expo}{\textrm{Expo}}
+\newcommand{\Pois}{\textrm{Pois}}
+\newcommand{\Unif}{\textrm{Unif}}
+\newcommand{\Geom}{\textrm{Geom}}
+\newcommand{\HGeom}{\textrm{HGeom}}
+\newcommand{\Mult}{\textrm{Mult}}
+\newcommand{\FS}{\textrm{FS}}
+\newcommand{\NBin}{\textrm{NBin}}
+
+\newcommand{\comment}[1]{}
+\newcommand{\parts}[2]{\frac{\partial #1}{\partial #2}}
+
+\DeclareSymbolFont{symbolsC}{U}{txsyc}{m}{n}
+\DeclareMathSymbol{\indep}{\mathrel}{symbolsC}{121}
+                 
+\newcommand{\notes}[5]{
+	\noindent
+	\begin{center}
+	\framebox{
+		\vbox{
+    		\hbox to 6.3in {#1
+    		\hfill #2}
+    		
+    		\vspace{4mm}
+    		
+    		\hbox to 6.3in {\hfill {\large {\bf #5}} \hfill}
+    		
+    		\vspace{4mm}
+    		
+    		\hbox to 6.3in { {\it #3} \hfill {\it #4} }
+		}
+	}
+	\end{center}
+	\vspace*{4mm}
+}
+
+\newcommand{\header}{
+    \notes
+    {Statistics 110: Introduction to Probability}
+    {Section \sectionnumber \ifnum\showanswers=1 { Solutions}\fi}
+    {Richard Ouyang (rouyang@college.harvard.edu)}
+    {Catherine Li (catherineli@college.harvard.edu)}
+    {\sectiontitle}
+    
+}
+ 
+\newcommand{\hide}[1]{
+   \ifnum\showanswers=1
+   \vspace{12pt}
+   \textbf{Solution. } #1 \vspace{\baselineskip}
+   \fi
+ 
+   \ifnum\showanswers=0
+   \vspace{1.5in}% \hspace{2cm}
+   \fi
+}
+
+\setlength{\parindent}{0.0in}
+% \setlength{\parskip}{0.0in}

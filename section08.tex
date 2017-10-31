@@ -1,0 +1,125 @@
+\documentclass{article}
+
+\def\sectionnumber{8}
+\def\sectiontitle{Transformations, Beta and Gamma, Order Statistics}
+
+% Set this =0 to hide, =1 to show
+\def\showanswers{1}
+
+\usepackage{common}
+
+\begin{document} 
+
+\header
+
+\section{Beta and Gamma Distributions}
+
+\begin{description}
+    \item[Beta PDF] The PDF of a $\Beta(a, b)$ random variable is $$\frac{1}{B(a, b)}x^{a - 1}(1 - x)^{b - 1}$$
+    where $B(a, b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a + b)}$ is the beta function.
+    
+    \item[Beta-Binomial conjugacy] States that the Beta distribution is a conjugate prior for the binomial distribution. A prior is a distribution we place on an random variable that reflects our belief about that random variable before any data is observed. Beta-binomial conjugacy then states that if we place a Beta prior on some random variable $p$, then if we observe data $X$ such that $X|p \sim \Bin(n,p)$ for some $n$, then $p|X$ still follows a Beta distribution. 
+    
+    \item [Bayes' Billiards] This is a story proof that 
+    $$\int_0^1\binom{n}{k}x^k(1 - x)^{n - k}dx = \frac{1}{n + 1}.$$
+    Proof is on page 353 of book.
+    
+    \item[Gamma function] The Gamma function is a generalization of the factorial to all positive real numbers. It has the property that $\Gamma(n) = (n-1)!$ for positive integers $n$, and $\Gamma(a+1)=a\Gamma(a)$ for all $a > 0$. 
+    
+    \item[Gamma story and PDF] A $\Gam(n, \lambda)$ random variable has the same distribution as the sum of $n$ independent $\Expo(\lambda)$ r.v.s. The PDF of a $\Gam(a,\lambda)$ random variable (where $a$ and $\lambda$ are any positive reals) is given by 
+    $\frac{\lambda^a}{\Gamma(a)} x^{a-1}\exp(-\lambda x)$.
+    
+    \item[Bank-post office] Given independent $X \sim \Gam(a, \lambda), Y \sim \Gam(b, \lambda)$ (wait time at the bank and post office, respectively), $T \equiv X + Y \sim \Gam(a + b, \lambda)$ and $W \equiv \frac{X}{X + Y} \sim \Beta(a, b)$. Moreover, $T$ and $W$ are independent.
+\end{description}
+1. Charlotte is dealing with government bureaucracy, and so needs to visit three different counters to get her passport stamped at Logan Airport. The time she spends at each counter is $\Expo(\lambda)$ (independently of the time spent at other counters). What is the distribution of the proportion of time spent at the first two counters?
+
+\hide{Let $X_1$, $X_2$, $X_3 \sim \Expo(\lambda)$ be the time spent at the first, second, and third counters, respectively. Then we are looking for the distribution of $Y \equiv \frac{X_1+X_2}{X_1+X_2+X_3}$. But $X_1+X_2 \sim \Gam(2,\lambda)$ by the story of the Gamma, and $X_3 \sim \Gam(1,\lambda)$, so by the Beta-Gamma story $Y \sim \boxed{\Beta(2,1)}$.} 
+% There was supposed to be a part (b) but couldn't think of one
+
+2. * Prove that the Gamma is the conjugate prior of the Poisson.
+% I have no idea how to do this. Yeah this is supposed to be a challenge problem...hopefully reading the solutions might be helpful in understanding conjugate priors
+
+\hide{Let's first state mathematically what we're trying to show. Let's say we have a r.v.~$X$ distributed as $\Pois(\lambda)$ where $\lambda$ is unknown. We place a prior on $\lambda \sim \Gam(a, \theta)$; we need to show that the posterior distribution of $\lambda$, i.e. $\lambda|X$ also follows a Gamma distribution. As with the beta-binomial conjugacy proof, we use (continuous) Bayes' rule, dropping proportionality constants:
+\begin{align*}
+    f(\lambda|X=x) & \propto P(X=x|\lambda)f_{\lambda}(\lambda) \\
+    & = \frac{e^{-\lambda}\lambda^x}{x!} \frac{\theta^a}{\Gamma(a)}\lambda^{a-1}e^{-\lambda\theta} \\
+    & \propto e^{-\lambda(1+\theta)} \lambda^{x+a-1}
+\end{align*}
+This is the form of a $\Gam(x+a,1+\theta)$ PDF (up to proportionality), as desired.
+}
+
+\section{Transformations}
+
+\begin{description}
+    \item[Change of variables formula, one dimension] If $Y = g(X)$, then $$f_Y(y) = f_X(x)\left|\frac{dx}{dy}\right|.$$
+    Remember this from $f_X(x)dx = f_Y(y)dy$.
+
+    **IMPORTANT** This formula is only well defined if the function $g$ is monotonic (otherwise $\frac{dx}{dy}$ is undefined)! If this is not the case, it's generally safer to go back to the definition of CDF.
+    
+    \item[Change of variables formula, general case] If $\mathbf{Y} = g(\mathbf{X})$, then $$f_\mathbf{Y}(\mathbf{y}) = f_\mathbf{X}(\mathbf{x})\left|\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right|.$$
+    All the bold letters are vectors, and $\left|\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right|$ denotes the determinant of the Jacobian. The Jacobian is the matrix where element $i, j$ is $\frac{\partial x_i}{\partial y_j}$.
+    
+    \item[Convolution sums and integrals] A convolution is just a sum. If $X$ and $Y$ are independent discrete r.v.'s, then the PMF of $X+Y$ is given by $P(X+Y=t) = \sum_x P(X=x)P(Y=t-x)$. If they are continuous, then if $f$ is the PDF of $X$ and $g$ is the CDF of $Y$, the PDF of $X+Y$ (call it $h$) is 
+    $$h(t) = \int_{-\infty}^{\infty} f(x)g(t-x) dx
+    $$
+\end{description}
+
+3. Suppose $B \sim \Beta(a, 1)$. 
+
+(a) What is the distribution of $X = -\log(B)$? 
+
+\hide{First note that $\frac{1}{B(a, 1)} = \frac{\Gamma(a + 1)}{\Gamma(a)} = a$. Using the change-of-variables formula gives 
+$$f_X(x) = f_B(b)\left|\parts{b}{x}\right| = \frac{1}{B(a, 1)}b^{a - 1}|-\exp(-x)| = a\exp(-x(a - 1))|\exp(-x)| = a\exp(-xa),$$
+which is the PDF of an $\Expo(a)$ r.v.
+}
+
+(b) What is the distribution of $Y = B^2$?
+
+\hide{Let's do the same thing as above:
+$$f_Y(y) = f_B(b)\left|\parts{b}{y}\right| = \frac{1}{B(a, 1)}b^{a - 1}\left|\frac{1}{2\sqrt{y}}\right| = ay^{\frac{a - 1}{2}}\left|\frac{1}{2\sqrt{y}}\right| = \frac{a}{2}y^{\frac{a}{2} - 1},$$
+which is the PDF of a $\Beta(\frac{a}{2}, 1)$ r.v.}
+% fixed
+
+4. Suppose $X$ and $Y$ are independent standard Normals, and consider $R$ and $\theta$ such that $X = R\cos\theta$ and $Y = R\sin\theta$. Find the distribution of $\theta$ and explain what this implies about the bivariate normal.
+
+\hide{We have 
+$$f_{R, \theta}(r, \theta) = f_{X, Y}(r\cos\theta, r\sin\theta)
+\begin{vmatrix}
+\parts{x}{r} & \parts{x}{\theta} \\ 
+\parts{y}{r} & \parts{y}{\theta}  
+\end{vmatrix}
+= \frac{1}{\sqrt{2\pi}}\exp\left(-\frac{r^2}{2}\right)|r| = \left(r\exp\left(-\frac{r^2}{2}\right)\right)\left(\frac{1}{\sqrt{2\pi}}\right)
+$$
+Since the portions with $r$ and $\theta$ are separable, $R$ and $\theta$ are independent with PDFs 
+$$f_R(r) = r\exp\left(-\frac{r^2}{2}\right) \quad f_\theta(\theta) = \frac{1}{\sqrt{2\pi}}$$
+This means that $\theta \sim \Unif(0, 2\pi)$, and this implies that the bivariate Normal with two independent standard Normals has points uniformly distributed around the origin at any given radius.
+}
+
+5. (BH 8.21) Let $U \sim \Unif(0,1)$ and $X \sim \Expo(1)$, independently. Find the PDF of $U+X$. 
+
+\hide{We have $f_U(u) = 1$ and $f_X(x) = e^{-x}$ are the PDFs of $U$ and $X$. By the convolution formula, if we let $T=U+X$ then the PDF of $T$ (call it $f_T(t)$) in the support $(0,\infty)$ is given by
+$$
+    f_T(t)  = \int_{-\infty}^{\infty} f_X(x)f_U(t-x) dx  
+$$
+We have to be careful with supports here. $f_X(x)$ is nonzero only for $x > 0$. Furthermore, if $t < 1$, then $f_U(t-x)$ is nonzero when $0 \leq x \leq t$. If $t \geq 1$, then $f_U(t-x)$ is nonzero when $t-1 \leq x \leq t$. So our PDF must be defined piecewise. For $t < 1$, it is $\int_0^t e^{-x} dx = \boxed{1-e^{-t}}$. For $t \geq 1$, it is $\int_{t-1}^t e^{-x} dx = \boxed{e^{1-t} -e^{-t}}$. 
+}
+
+
+\section{Order Statistics}
+
+\begin{description}
+    \item[Definition] The order statistics $X_{(1)}, X_{(2)}, \dots, X_{(n)}$ of a set of random variables $X_{1}, X_{2}, \dots, X_{n}$ are defined such that $X_{(i)}$ is the $i$th smallest of the $X_i$.
+    
+    \item[CDF and PDF of order statistics] The CDF is 
+    $$P(X_{(j)} \leq x) = \sum_{k = j}^n \binom{n}{k}F(x)^k(1 - F(x))^{n - k}.$$
+    The PDF is 
+    $$f_{x_{(j)}}(x) = n\binom{n - 1}{j - 1}f(x)F(x)^{j - 1}(1 - F(x))^{n - j}.$$
+    You don't have to remember this, but it might be useful for a problem or two.
+    
+    \item[Order statistics of Uniforms] For $U_1, \dots, U_n$ i.i.d.~$\Unif(0, 1)$, the $j$th order statistic $U_{(j)}$ is $\Beta(j, n - j + 1)$.
+    
+    
+\end{description}
+
+\end{document}
+

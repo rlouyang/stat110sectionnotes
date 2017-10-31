@@ -1,0 +1,139 @@
+\documentclass{article}
+
+\def\sectionnumber{10}
+\def\sectiontitle{Inequalities, LLN, CLT, Markov Chains}
+
+% Set this =0 to hide, =1 to show
+\def\showanswers{1}
+
+\usepackage{common}
+
+\begin{document} 
+
+\header
+
+\section{Inequalities}
+
+\begin{description}
+\item[Cauchy-Schwarz] For r.v.'s $X$ and $Y$, $|E(XY)| \leq \sqrt{E(X^2)E(Y^2)}$. 
+
+\item[Convex function] A function $g$ is convex if the straight line connecting two points on its graph lies above the graph. If $g$ is twice differentiable, $g$ is convex iff $g''(x) > 0$. Note that a function does not have to be convex everywhere! (e.g. $g(x) = x^3$). 
+
+\item[Jensen] If $g(x)$ is convex, $X$ is a r.v., $E(g(X)) \geq g(E(X))$. 
+
+\item[Markov] For a r.v.~$X$, $P(|X| \geq a) \leq \frac{1}{a}E(|X|)$  
+
+\item[Chebyshev] For a r.v.~$X$, $P(|X-E(X)| \geq a) \leq \frac{\var(X)}{a^2}$ 
+
+\end{description}
+1. Fill in the following blanks with $\geq$, $=$, $\leq$, or $?$ (uncertain) for any i.i.d.~r.v.s $X$ and $Y$:
+\begin{itemize}
+\item $E(|X|)$ \underline{\hspace{1cm}} $|E(X)|$
+
+\hide{Note that the absolute value function is convex (even though it's mostly linear!). So Jensen applies, and the answer is $\geq$.}
+
+\item $E(X^4)$ \underline{\hspace{1cm}} $\sqrt{E(X^2)E(X^6)}$
+
+\hide{Cauchy-Schwarz with $X$ and $X^3$, so $\leq$.}
+
+\item $E((X+Y)^2)$ \underline{\hspace{1cm}} $2E(X^2) + 2(E(X))^2$ [\text{2008 Stat 110 Final}]
+
+\hide{Expanding the left-hand side gives $E((X+Y)^2) = E(X^2) + E(Y^2) + 2E(XY) = E(X^2) + E(Y^2) + 2E(X)E(Y) = 2E(X^2) + 2E(X)^2$ since $X$ and $Y$ are i.i.d.~(have the same expectation and variance).}
+
+\end{itemize}
+
+\section{Law of Large Numbers, Central Limit Theorem}
+For this section, let $X_1$,...,$X_n$ be i.i.d.~with $E(X_i) = \mu$, $\var(X_i) = \sigma^2$.
+\begin{description}
+\item[Weak LLN] For any $\epsilon>0$ that $P(|\bar{X_n}-\mu| > \epsilon) \rightarrow 0$ as $n \rightarrow \infty$. 
+
+\item[Strong LLN] $\bar{X_n} \rightarrow \mu$ (this notation refers to convergence "almost surely" of random variables). Requires some technical assumptions to hold, e.g. the 4th moments are bounded.
+
+\item[Central Limit Theorem] The distribution of $\frac{\bar{X_n}-\mu}{\sigma/\sqrt{n}}$ converges to the $\N(0,1)$ distribution. Note that $E(\bar{X_n}) = \mu$, $\var(\bar{X_n}) = \frac{\sigma}{\sqrt{n}}$. 
+
+\end{description}
+
+2. Prove the weak LLN using Chebyshev's inequality.
+
+\hide{ By Chebyshev,
+\[
+P(|\bar{X_n}-\mu| > \epsilon) \leq \frac{\var{X_n}}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0 \text{ as $n \rightarrow \infty$}
+\]
+}
+
+3. [BH 10.22, adapted] Using the CLT, prove that a $\Pois(n)$ r.v.~converges to a Normal distribution for positive integers $n$ as $n \rightarrow \infty$. Give the appropriate mean and variance parameters (in terms of $n$). 
+
+\hide{ A $\Pois(n)$ is the sum of $n$ i.i.d $\Pois(1)$ r.v.'s., which have mean and variance 1. By the CLT, if $X_n \sim \Pois(n)$, then $\frac{X_n - n}{\sqrt{n}}$ converges to a $\N(0,1)$ distribution, so $X_n$ converges to a $\N(n,n)$ distribution }
+
+4. [William Chen and Sebastian Chiu] William enters a casino with $X_0=1$ dollar. He repeatedly plays a game where with probability $\frac{1}{3}$, his money triples; otherwise, it decreases by a factor of $3$. Let $X_n$ be the amount of money William has after playing the game $n$ times. 
+
+\begin{enumerate}[(a)]
+\item Find $E(X_n)$ for all $n$. What happens to this expression as $n \rightarrow \infty$?
+
+\hide{By Adam's Law, we have 
+\begin{align*}
+    E(X_n) & = E(E(X_n|X_{n-1})) \\
+    & = E(\frac{1}{3} \cdot 3X_{n-1} + \frac{2}{3} \cdot \frac{1}{3}X_{n-1}) \\
+    & = \frac{11}{9}E(X_{n-1}) \\
+\end{align*}
+for all $n > 0$. By induction, $E(X_n) = (\frac{11}{9})^n$ which approaches infinity as $n \rightarrow \infty$.}
+
+\item Express $X_n$ as a function of $Y_n$, the number of times that William has won the game out of $n$. Use the law of large numbers to compute $\lim_{n \rightarrow \infty} X_n$. 
+
+\hide{If William has won $Y_n$ times, then he's lost $n-Y_n$ times. This means his money has tripled $Y_n$ times and gotten multipled by $\frac{1}{3}$ $n-Y_n$ times. So $X_n = 3^{Y_n} \cdot \frac{1}{3}^{n-Y_n} = 3^{2Y_n-n}$. By the LLN, $Y_n \rightarrow \frac{n}{3}$ as $n \rightarrow \infty$, since $Y_n \sim \Bin(n,\frac{1}{3})$. So $X_n \rightarrow 3^{-\frac{n}{3}} \rightarrow 0$ as $n \rightarrow \infty$. At first this seems like a paradox; from part (a) William's average winnings increase without bound, but his winnings actually converge to 0. To reconcile this, note that the (weak) LLN we used here makes a statement about convergence in probability, which means that for any $\epsilon > 0$, $P(|X_n|>\epsilon)$ approaches 0 as $n \rightarrow \infty$. But there is an infinitesimal chance of winning a boatload of money, and that drags the expectation up to infinity!}
+\end{enumerate}
+
+
+\section{Markov Chains}
+
+\begin{description}
+
+\item[Definition] A sequence of r.v.'s $X_1$, $X_2$,... is said to be a (discrete-time) Markov Chain if $P(X_j = i|X_1=i_1,X_2=i_2,...,X_{j-1}=i_{j-1}) = P(X_j=i|X_{j-1}=i_{j-1})$ for all $i_1$,...,$i_{j-1}$ in the support of the $X_i$ (called the state space, which we denote $\{1,...,n\}$) and all $j > 1$. In other words, the distribution of states at time $t$ depends only on the state at time $t-1$. 
+
+\item[Transition matrix] For a Markov chain on $n$ states, the transition matrix (usually denoted $Q$) is an $n$-by-$n$ matrix where $Q_{i,j}$ (meaning the entry in the $i$-th row and $j$-th column) is $P(X_{k+1}=j|X_k=i)$ (this doesn't depend on $k$ by definition). The matrix $Q^n$ is the $n$-step transition matrix, i.e. $Q^n_{i,j} = P(X_{k+n}=j|X_k=i)$ (this is called the Chapman-Kolmogorov equation and follows from LOTP). The rows of any transition matrix must sum to 1 (why?)
+
+\item[Stationary distribution] If the chain has the stationary distribution at time $t = t_0$, then it will have the stationary distribution at all times $t \geq t_0$. The stationary distribution is a vector of probabilities.
+
+\item[Reversibility] If $s = (s_1,...,s_n)$ is a vector satisfying $s_iQ_{i,j} = s_jQ_{j,i}$ for all $i$, $j \in \{1,...,n\}$ for a transition matrix $Q$ with $\sum_{i=1}^n s_i = 1$, then $s$ is a stationary distribution for the Markov chain with transition matrix $Q$. Examples include any undirected graph and any symmetric chain. 
+
+\item[Recurrent] If you're at a recurrent state, you'll come back eventually with probability 1.
+
+\item[Transient] If you're at a transient state, there is some positive probability that you'll never come back.
+
+\item[Periodic] It's only possible to return to a periodic state in multiples of some $c > 1$.
+
+\item[Irreducible] You can get from any state to any other state.
+
+\end{description}
+5. Consider a four-state Markov Chain with transition matrix
+\[
+Q = 
+\begin{bmatrix}
+0 & 0.2 & 0.5 & 0.3 \\
+0.3 & 0 & 0.3 & 0.4 \\
+0.8 & 0 & 0.1 & 0.1 \\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\]
+\begin{enumerate}[(a)]
+\item Determine whether each state is recurrent, transient, and/or periodic. Is the Markov Chain irreducible? 
+
+\hide{State 4 is obviously recurrent. States 1-3 are transient because there's nonzero probability of going to state 4 (and never returning). All the states are aperiodic, because you can return to them in either 2 moves or 3 moves. This Markov chain is indeed irreducible (can get from any state to any other state).}
+
+\item Suppose we start at the first state. What is the probability of being in the third state after 2 time steps? 
+
+\hide{By the algebraic form of Chapman-Kolmogorov, we have $q_{13}^{(2)} = q_{11}q_{13}+ q_{12}q_{23} + q_{13}q_{33} + q_{14}q_{43} = 0 + 0.2 \cdot 0.3 + 0.5 \cdot 0.1 + 0 = \boxed{0.11}$. If you want a more mechanical way of doing this just square $Q$ and look at $Q^2_{13}$. That gives you all of the 2-step transition probabilities!}
+
+\item Find the stationary distribution of this Markov Chain. 
+
+\hide{Note that once the chain goes to state 4, it stays there forever. So intuitively, in the long run the chain will spend all of its time at state 4, and we guess the stationary distribution is $(0, 0, 0, 1)$ (exercise: prove this!)}
+
+\end{enumerate}
+
+6. What is the stationary distribution for a two-state Markov chain with $q_{11} = \alpha$, $q_{22} = \beta$ where $0 < \alpha$, $\beta < 1$?
+
+\hide{The stationary distribution takes the form $(x, 1-x)$ for some $x \in [0, 1]$. Let's try reversibility, which would require $x(1-\alpha) = (1-x)(1-\beta)$. Solving gives
+$x = \frac{1-\beta}{2-\alpha-\beta}$ so the stationary distribution is $\boxed{(\frac{1-\beta}{2-\alpha-\beta}, \frac{1-\alpha}{2-\alpha-\beta})}$}.
+
+\end{document}
+

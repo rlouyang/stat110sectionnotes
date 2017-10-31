@@ -1,0 +1,182 @@
+\documentclass{article}
+
+\def\sectionnumber{5}
+\def\sectiontitle{Poisson and Continuous Random Variables}
+
+% Set this =0 to hide, =1 to show
+\def\showanswers{1}
+
+\usepackage{common}
+
+\begin{document} 
+
+\header
+
+\section{Poisson Approximation}
+The law of rare events states that if you have $n$ possible events $A_1$,...,$A_n$ that are independent (or weakly dependent) with $P(A_i) = p_i$, then if $n$ is large and the $p_i$ are small, the number of events that occurs (call it $X$) follows approximately a Poisson distribution, where the rate parameter is equal to $\sum_{i=1}^n p_i$. Why is this the rate parameter?
+
+\hide{The rate parameter of a Poisson distribution is equal to its mean, so the natural choice of parameter for $X$ would be $E(X)$. To calculate $E(X)$, create an indicator $I_i$ for each event $A_i$. Then $X = \sum_{i=1}^n I_i$ so by linearity and the fundamental bridge, $E(X) = \sum_{i=1}^n p_i$.}
+
+1. (a) Your computer randomly selects a 1000-element subset of $\{1,2,\dots,10^9\}$. What is the probability that exactly ten of these numbers are no more than $10^7$? 
+
+\hide{Let $X$ be the number of numbers no more than $10^7$. Then $X \sim \HGeom(10^7, 10^9-10^7, 1000)$. By the PMF of the Hypergeometric, we have 
+\[
+P(X=10) = \boxed{\frac{\binom{10^7}{10} \binom{10^9-10^7}{990}}{\binom{10^9}{1000}}}
+\]}
+
+(b) Give an approximation to your answer above in terms of $e$.
+
+\hide{Taking the form above, we have events $A_1, A_2, \dots, A_{1000}$, and each of them is ``no more than $10^7$" with probability $\frac{10^7}{10^9} = \frac{1}{100}$. Thus our mean parameter is $1000\frac{1}{100} = 10$. Then, using the Poisson PMF, the desired probability is $\boxed{\frac{e^{-10}10^{10}}{10!}} \approx 0.125$.}
+
+\section{Continuous Random Variables}
+
+\begin{description}
+
+\item[PDF: ]
+
+Recall the CDF of a continuous random variable is $P(X \leq x)$. It's usually denoted $F(x)$. The PDF, denoted $f(x)$, is simply the derivative $F'(x)$. Then we have $F(x) = \int_{-\infty}^x f(t)dt$, where $f$ is the PDF. (The limits of integration work since $\lim_{x \rightarrow \infty} F(x) = 1$ and $\lim_{x \rightarrow -\infty} F(x) = 0$ for any CDF).
+
+\item[Expectation: ]
+
+The expectation of a continuous r.v.~is $E(X) = \int_{-\infty}^\infty xf(x)dx$, where $f$ is the PDF.
+
+\item[Uniform distribution CDF: ]
+
+The CDF of a $\Unif(a, b)$ distribution is $F(x) = \frac{x - a}{b - a}$ for $a \leq x \leq b$, $F(x) = 0$ for $x < a$, and $F(x) = 1$ for $x > b$.
+
+\item[Universality of the Uniform: ]
+
+The Universality of the Uniform has two parts. Both require that $F$ is a strictly increasing, continuous CDF (otherwise $F^{-1}$ doesn't exist).
+\begin{enumerate}
+    \item If $U \sim \Unif(0, 1)$ and $X \sim F^{-1}(U)$, then $X$ is a r.v.~with CDF $F$. In less technical terminology, this means that you can get a r.v.~of any distribution from a Uniform r.v.~as long as you have $F^{-1}$, the inverse CDF.
+    
+    \item If $X$ has CDF $F$, then $F(X) \sim \Unif(0, 1)$. This means that if you plug in a random variable into its own CDF, you get a $\Unif(0, 1)$ out. It's important to understand that $F(X)$ is a random variable!
+\end{enumerate}
+
+\end{description}
+
+2. (BH 5.13) A stick of length 1 is broken at a uniformly random point, yielding two pieces. Let $X$ and $Y$ be the lengths of the shorter and longer pieces, respectively, and let $R = X/Y$ be the ratio of the lengths $X$ and $Y$.
+
+\begin{enumerate}[(a)]
+    \item Find the CDF and PDF of $R$.
+    
+    \hide{Let $U \sim \text{Unif}(0, 1)$ be the breakpoint, so $X = \min(U, 1-U)$. For $r \in (0,1)$,
+    \[P(R < r) = P(X < r(1-X)) = P(X< \frac{r}{1+r}).\]
+    What's the CDF of X? It is
+    \[P(X<x) = 1-P(X > x) = 1- P(U>x, 1-U > x) = 1 - P(x < U < 1-x) = 2x,\]
+    for $0 < x < \frac{1}{2}$, and the CDF is 0 for $x < 0$ and 1 for $x > \frac{1}{2}$. So $X \sim \text{Unif}(0, \frac{1}{2}),$ and the CDF of $R$ is
+    \[P(R < r) = P(X < \frac{r}{1+r}) = \frac{2r}{1+r}\]
+    for $r \in (0, 1)$, and it is 0 for $r < 0$ and 1 for $r > 1$.
+    The PDF of $R$ is 0 if $r$ is not in $(0, 1)$, and for $r \in (0, 1)$ it is
+    \[f(r) = \frac{2(1+r) - 2r}{(1+r)^2} = \frac{2}{(1+r)^2}\]
+    }
+    
+    \item Find the expected value of $R$ (if it exists).
+    
+    \hide{We have
+    \[E(R) = \int_0^1 \frac{2r}{(1+r)^2} dr = 2 \int_1^2 \frac{(t-1)}{t^2} dt = 2\int_1^2 \frac{1}{t}dt - 2\int_1^2 \frac{1}{t^2} dt = 2 \ln 2 - 1.\]
+    }
+    
+    \item Find the expected value of $1/R$ (if it exists).
+    
+    \hide{ The expected value does not exist, since $\int_0^1 \frac{1}{r(1+r)^2}$ diverges. To show this, note that $\int_0^1 \frac{1}{r} dr$ diverges and $\frac{1}{r(1+r)^2} > \frac{1}{4r}$ for $0<r<1$.
+    }
+\end{enumerate}
+
+% Note: BH 5.5 is in the hwk
+
+% 2. (BH 5.5) A circle with a random radius $R \sim \Unif(0,1)$ is generated. Let $A$ be its area.
+
+% \begin{enumerate}[(a)]
+%     \item Find the mean and variance of $A$, without first finding the CDF or PDF of $A$.
+
+%     \hide{
+%     The mean of $A$ is equal to the mean of $\pi R^2$, so by LOTUS $$E(A) = \int_{0}^{1} \pi x^2 \cdot 1 dx = \frac{\pi}{3}.$$
+    
+%     To find the variance, we need to find $E(A^2)$, which is given by $$E(A^2) = \int_{0}^{1} \pi^2 (x^2)^2 \cdot 1 dx = \frac{\pi^2}{5}.$$
+    
+%     Plugging into the formula for variance, we find that $$Var(A) = E(A^2)-(E(A))^2 = \frac{\pi^2}{5} - \left(\frac{\pi}{3}\right)^2 = \frac{4\pi^2}{45}.$$
+%     }
+    
+%     \item Find the CDF and PDF of $A$. 
+    
+%     \hide{
+%     By the first part of the Universality of the Uniform, we know that if $A = F_A^{-1}(R)$, then $A \sim F$. Indeed, $A = \pi R^2$, so we know that the CDF of $A$ is $$F_A(x) = \sqrt{\frac{x}{\pi}}$$ by finding the inverse of $F^{-1}$. $F(x)$ is 0 when $x < 0$ and 1 when $x > \pi$. Taking the derivative of the CDF, we find that the PDF is $$f(x) = \frac{1}{2\sqrt{\pi x}}$$ when $x$ is in $(0, \pi]$ and 0 otherwise. 
+%     }
+%     \end{enumerate}
+
+3. The logistic distribution has CDF $F(x) = \frac{1}{1+e^{-x}}$. Find a function $g$ so that $g(U)$ has a logistic distribution where $U \sim \Unif(a,b)$. \\
+\hide{ First, we let the CDF of $U$ be $h(x) = \frac{x-a}{b-a}$. Then $h(U) \sim \Unif(0,1)$ by UoU, so by UoU again, $F^{-1}(h(U))$ has a logistic distribution (where $F$ is the CDF of the logistic), i.e. let $g = F^{-1} \circ h$. To find $F^{-1}$, note that it must satisfy $x = \frac{1}{1+e^{-F^{-1}(x)}}$. Solving gives $F^{-1}(x) = \log(\frac{x}{1-x})$, so we take 
+$g(x) = F^{-1}(h(x)) = \boxed{\log\left(\frac{x-a}{b-x}\right)}$.}
+
+
+\section{Normal Distribution}
+
+A Normal distribution with mean $\mu$ and variance $\sigma^2$ is denoted $\N(\mu, \sigma^2)$. A Normal with mean 0 and variance 1 is called a standard Normal.
+
+\begin{description}
+
+\item[PDF:] The PDF of a standard Normal is generally denoted $\phi(z)$, and is given on your formula sheet.
+
+\item[CDF:] The CDF of a standard Normal is generally denoted $\Phi(z)$.
+
+\end{description}
+4. Let $Z \sim \N(0,1)$. In terms of $\phi$ and/or $\Phi$, find the PDF of $(Z+c)^2$ where $c$ is any constant.
+
+\hide{ Let $X = (Z+c)^2$. We start with the CDF of x, given by 
+\begin{align*}
+    F(X) & = P((Z+c)^2 \leq x) \\
+    & = P(-\sqrt{x} \leq Z+c \leq \sqrt{x}) \\
+    & = P(-\sqrt{x}-c \leq Z \leq \sqrt{x}-c) \\
+    & = \Phi(\sqrt{x}-c) - \Phi(-\sqrt{x}-c) \\
+\end{align*}
+The PDF is given by
+\[
+f(x) = F'(x) = \boxed{\frac{1}{2}x^{-\frac{1}{2}}(\phi(\sqrt{x}-c) + \phi(-\sqrt{x}-c))}
+\]
+}
+% way to copy 210 HW... 
+
+\section{Exponential Distribution}
+\begin{description}
+
+\item[Memoryless property (intuitive explanation and mathematical definition): ]
+
+If $X$ has the memoryless property, then $$P(X \geq s + t| X \geq s) = P(X \geq t).$$ In other words, if you've already waited for $s$ units of time, the probability of having to wait an additional $t$ units of time is the same as the initial (i.e., back when you started waiting) probability that you had to wait $t$ units of time. The Exponential distribution is the only continuous distribution with this property. However, the Geometric distribution also has this property (try proving this as an exercise).
+
+\item[PDF:] The PDF of an $\Expo(\lambda)$ r.v.~is $f(x) = \lambda e^{-\lambda x}$.
+
+\item[CDF:] The CDF of an $\Expo(\lambda)$ r.v.~is $F(x) = 1 - e^{-\lambda x}$.
+
+\end{description}
+
+4. Let $X_1 \sim \Expo(\lambda_1)$ and $X_2 \sim \Expo(\lambda_2)$ be independent. 
+
+(a) What is the PDF of $X = \max(X_1,X_2)$? Does $X$ have an exponential distribution? 
+
+\hide{Note that $X \leq x$ implies ($X_1 \leq x$ and $X_2 \leq x$) and vice versa. Thus, $$P(X \leq x) = P(X_1 \leq x, X_2 \leq x) = P(X_1 \leq x)P(X_2 \leq x) = (1 - e^{-\lambda_1x})(1 - e^{-\lambda_2x}).$$ Taking the derivative of this with respect to $x$ gives $$\lambda_1 e^{-\lambda_1x} + \lambda_2 e^{-\lambda_2x} - (\lambda_1 + \lambda_2)e^{-(\lambda_1 + \lambda_2)x}.$$ Since this doesn't have the form of the Exponential PDF, $X$ isn't Expo.
+  
+}
+
+(b) Now suppose $\lambda_1 = \lambda_2 = \lambda$. What is $E(X)$? Even better, what is $E(X)$ if $\lambda_1 \neq \lambda_2$? Hint: you don't need to do a messy integral.
+
+\hide{Note that $$E(\min(X_1, X_2)) + E(\max(X_1, X_2)) = E(X_1) + E(X_2) = \frac{1}{\lambda_1} + \frac{1}{\lambda_2}.$$ We already know that $\min(X_1, X_2) \sim \Expo(\lambda_1 + \lambda_2)$, so $$E(\min(X_1, X_2)) = \frac{1}{\lambda_1 + \lambda_2}.$$ Solving for $E(\max(X_1, X_2))$ gives $$E(\max(X_1, X_2)) = \frac{1}{\lambda_1} + \frac{1}{\lambda_2} - \frac{1}{\lambda_1 + \lambda_2}.$$ 
+
+If $\lambda_1 = \lambda_2 = \lambda$, then $X$ is just the minimum of two Expos plus the time needed for the remaining Expo (without loss of generality, assume this is $X_2$). So let $T_1 \sim \min(X_1, X_2) \sim \Expo(2\lambda)$, and let $T_2 \sim X_2$ by the memoryless property (since if $X_2$ hasn't finished by $T_1$, then the memoryless property says that it's as if $X_2$ had never started). So $$E(X) = E(T_1) + E(T_2) = \frac{1}{2\lambda} + \frac{1}{\lambda} = \frac{3}{2\lambda},$$ which is consistent with the above result.
+    
+}
+% Wow that's a really clever trick, I was intending for lambda_1 = lambda_2 and to use memorylessness to help with #7 on the pset.
+
+
+5. Science Center B is under construction, so the only way to get to Stat 110 lecture is through a revolving door that gets stuck every time someone tries to go through it. Suppose the door only fits one person at a time, and the time it takes the person to get through the door (independent for different people) is distributed exponentially with rate $\frac{1}{2}$ inverse seconds. Crystal enters the door on Tuesday at 2:36:56 pm, and Alan arrives at 2:36:58 pm. Nobody arrives between them. What is the probability that Alan gets in the door on Harvard time (i.e. before 2:37:00 pm)? 
+
+\hide{We condition on the event $C$ that Crystal is still in the door when Alan arrives (which is equivalent to the event $X > 2$). Let $X \sim \Expo(\frac{1}{2})$ be the time for Crystal to go through the door. Then $P(C) = P(X>2) = 1-P(X \leq 2) = e^{-1}$ by the Expo CDF. Let $Y$ be the time for Alan to get in the door. Then 
+    \begin{align*}
+        P(Y \leq 2) = P(Y \leq 2|C)P(C) + P(Y \leq 2|C^C)P(C^C)
+    \end{align*}
+Note that $P(Y \leq 2|C^C) = 1$ since given $C^C$, $Y=0$. Conversely, we have $P(Y \leq 2|C) = P(X \leq 4|C) = P(X \leq 2) = 1-e^{-1}$ by memorylessness. So the answer is $(1-e^{-1})e^{-1} + (1-e^{-1}) = \boxed{1-e^{-2}}$. 
+} 
+
+
+\end{document}
+

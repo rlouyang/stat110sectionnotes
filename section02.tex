@@ -1,0 +1,235 @@
+\documentclass{article}
+
+\def\sectionnumber{2}
+\def\sectiontitle{Conditioning and Independence}
+
+% Set this =0 to hide, =1 to show
+\def\showanswers{1}
+
+\usepackage{common}
+
+\begin{document} 
+
+\header
+
+Many problems in Stat 110 will have extremely similar approaches. It's important to be able to recognize these similarities and not to be thrown off by the ``disguise" of a problem. The nouns change, but the verbs stay the same.
+
+\section{Inclusion-Exclusion Principle} 
+
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+
+\begin{description}
+    \item[Three events] $P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C)$
+    
+    \item[General case] $$P\left(\bigcup_{i=1}^n A_i\right) = \sum_{k = 1}^n (-1)^{k+1} \left( \sum_{1 \leq i_1 < \cdots < i_k \leq n} P( A_{i_1} \cap \cdots \cap A_{i_k} ) \right)$$
+\end{description}
+
+% 1. How many integers from 0 to 999 inclusive contain the digit 9?
+
+% \hide{Let $A$ be the set of integers from 0--999 with a 9 in the hundreds digit, $B$ be those with a 9 in the tensdigit, and $C$ be those with a 9 in the ones digit.  We want to count the size of $A \cup B \cup C$ (those numbers with a 9 in the hundreds digit, tens digit, or ones digit).  By inclusion-exclusion, we have $$|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|$$
+% By the multiplication rule, $|A|=|B|=|C|= 100$ since for $|A|$ the hundreds digit must be a 9, and there are 10 choices for each of the other two digits. $|A\cap B|=|A\cap C|=|B\cap C|= 10$ since for each of those sets two digits are fixed, and there are 10 choices for the last digit. Finally, $|A\cap B\cap C|= 1$ since 999 is the only number in that set. Plugging in gives $\boxed{271}$.}
+
+% 2. (Adapted from 2010 AMC 10B) Being the patriot that she is, Caroline has three candy bags that are red,
+% white, and blue. How many ways are there for Caroline to distribute seven different pieces of candy among
+% the three bags such that the red bag and the blue bag each receive at least one piece of candy?
+
+% \hide{To use inclusion-exclusion, we need to write the desired event as a union of other events. You might
+% be tempted to let A be the event that the red bag is not empty and B be the event the blue bag is not
+% empty and take $A \cup B$\dots except the question is asking for $A \cap B$. So instead we use complementary counting, remembering DeMorgan's Law $(A \cap B)^C = A^C \cup B^C$. $A^C$ is the event the red bag is empty, and $B^C$ is the event the blue bag is empty. By the multiplication rule, there are $2^7 = 128$ ways to distribute the candies so that
+% the red bag is empty -- each of the 7 candies has two choices of bags of where to go. So $|A^C| = 128$, and
+% similarly $|B^C | = 128$. Also, $|A^C \cap B^C | = 1$ since there is only one way for both the red and blue bags to be empty. This gives by inclusion-exclusion $$|A^C \cup B^C| = |A \cap B| + |A^C| + |B^C| - |A^C \cap B^C| = 255$$
+% So we've found the size of the complement. There are $3^7$ total arrangements of the candies, so the final answer is $3^7 - 255 = \boxed{1942}$.}
+
+\section{Conditional Probability and Independence}
+
+\subsection{Joint Probability}
+
+$$P(A \cap B) = P(A, B)$$
+
+\begin{itemize}
+    \item ``The probability of $A$ and $B$."
+    \item This equals $P(A)P(B)$ if $A$ and $B$ are independent.
+    \item $P(A, B)$ is a \textit{joint probability}, and $P(A)$ (or $P(B)$) is a \textit{marginal probability}.
+\end{itemize}
+
+\subsection{Conditional Probability}
+
+$$P(A|B) = \frac{P(A, B)}{P(B)}$$
+\begin{itemize}
+    \item ``The probability of $A$ given that (you know that) $B$ occurred."
+    \item Conditional probability is probability, and all probability is conditional probability.
+    \item ``Conditioning is the soul of statistics." -- \url{https://youtu.be/ulStCvohAHk}
+\end{itemize}
+
+\subsection{Law of Total Probability}
+
+$$P(A) = P(A|B)P(B) + P(A|B^c)P(B^c)$$
+More generally, if $B_1, \cdots, B_n$ partition a space into $n$ disjoint sets, you have 
+
+$$P(A) = P(A|B_1)P(B_1) + \cdots + P(A|B_n)P(B_n)$$
+\begin{itemize}
+    \item But you'll pretty much only be using the first version.
+    \item You can use LoTP with extra conditioning by adding a $|C$ to everything in the equation.
+\end{itemize}
+
+\subsection{Independence}
+
+Two events $A$ and $B$ are independent if $$P(A, B) = P(A)P(B)$$
+
+\begin{itemize}
+    \item This can also be expressed in terms of conditional probability: $P(A|B) = P(A)$ and $P(B|A) = P(B)$.
+    \item Knowing one gives you no information about the other.
+    \item For sets of three events or more, you have to prove independence for every pair, every triple, and so on.
+\end{itemize}
+
+\subsection{Conditional Independence}
+
+$$P(A, B|C) = P(A|C)P(B|C)$$
+\begin{itemize}
+    \item Another way to express this: $P(A|B, C) = P(A|C)$ and $P(B|A, C) = P(B|C)$.
+    \item \textbf{Not the same thing as regular independence.}
+\end{itemize}
+
+\subsection{Practice Problems}
+
+% 3. Events $A$ and $B$ are independent with $P(A) = 0.4$ and $P(A \cup B) = 0.5$. What is $P(B)$?
+
+% \hide{By inclusion-exclusion,
+% $P(A \cup  B) = P(A) + P(B) - P(A \cap  B)$.
+% But $P(A \cap  B) = P(A)P(B)$ by independence. Then we have the equation
+% $$0.5 = 0.4 + P(B) - 0.4P(B)$$
+% Solving gives $P(B) = \boxed{\frac{1}{6}}$.}
+
+1. Suppose events $A$ and $B$ are conditionally independent given $C$. Is it true that $A$ and $B^C$ are also conditionally independent given $C$? How about $A^C$ and $B^C$?
+
+\hide{Note that $P(B|A, C) = P(B|C)$ implies $P(B^c|A, C) = P(B^c|C)$, which implies $P(A|B^c, C) = P(A|C)$, which implies $P(A^c|B^c, C) = P(A^c|C)$.}
+
+\section{Bayes' Rule}
+
+$$P(A|B) = \frac{P(B|A)P(A)}{P(B)}$$
+\begin{itemize}
+    \item You should be able to prove this without thinking too much.
+    \item Remember that you can use Bayes' Rule with extra conditioning by adding $|C$ to every probability in your equation ($P(A|B|C)$ is written as $P(A|B, C)$).
+\end{itemize}
+
+\subsection{Bayes' Rule with the Law of Total Probability}
+
+$$P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^c)P(A^c)}$$
+
+\begin{itemize}
+    \item You'll be using this a lot in your homework.
+    \item A helpful thing to remember is that the numerator and the first term of the denominator are the same thing.
+\end{itemize}
+
+\subsection{Practice Problems}
+
+2. (Ryan Lee's section notes, 2014) Suppose that you don't want to be in Kansas any more, and you'd like to be off in the wonderful land of Oz instead. The marginal probability of teenage girls being swept up by tornadoes and being flung to (i.e., making it to) Oz is reported to be 0.042. On the one hand, you may wait around for a tornado, in which case you have a probability of 0.0042 of getting to Oz; whereas on the other hand, you may become a tornado hunter, in which case you have a 0.42 probability of getting to Oz.
+
+\begin{enumerate}[(a)]
+    \item What is the probability that you never make it to Oz?
+    
+    \hide{Let $O$ be the event that you'll make it to Oz. Then we're just looking for $P(O^c)$, which is $1 - 0.042 = 0.958$.}
+    
+    \item Is getting to Oz independent of being a tornado hunter? Why or why not?
+    
+    \hide{Let $T$ be the event that you're a tornado chaser. $P(O|T) = 0.42 \neq 0.042 = P(O)$, so $O$ and $T$ are not independent.}
+    
+    \item What is the probability that Dorothy, who has made it to Oz, was a tornado chaser?
+    
+    \hide{This is actually the entire point of this problem, and somewhat tricky at first. Since we want
+    $P(T|O)$, we immediately apply Bayes' Rule, finding that:
+    $$P(T|O) = \frac{P(O|T)P(T)}{P(O)}.$$
+    We now need $P(T)$. Use LoTP on $O$ and solve for $P(T)$:
+    $$P(O) = P(O|T)P(T) + P(O|T^c)(1 - P(T)) \rightarrow$$
+    $$P(T) = \frac{P(O) - P(O|T^c)}{P(O|T) - P(O|T^c)}.$$
+    
+    Plugging in numbers gives $P(T) \approx 0.091$ and then $P(T|O) \approx 0.91$.
+    }
+\end{enumerate}
+
+% \subsection{A Tale of Two Suspects}
+
+% A crime is committed by one of two suspects, A and B. Initially, there is equal evidence against both of them. In further investigation at the crime scene, it is found that the guilty party had a blood type found in 10\% of the population. Suspect A does match this blood type, whereas the blood type of Suspect B is unknown.
+
+% \begin{enumerate}
+%     \item Given this new information, what is the probability that A is the guilty party?\\\\\\\\
+    
+%     \item Given this new information, what is the probability that B's blood type matches that found at the crime scene?\\\\\\\\
+% \end{enumerate}
+
+% \subsection{Simple Stock Markets}
+
+% A model for the movement of the price of a stock supposes that on each day the stock's price either moves up 1 unit with probability $p$ or moves down with probability $1 - p$.
+
+% \begin{enumerate}
+%     \item What is the probability that after two days the stock will be its original price?\\\\\\\\
+    
+%     \item What is the probability that after 3 days the stock will have increased by 1 unit?\\\\\\\\
+    
+%     \item Can you do the previous part with first-step analysis (what you did in the first part)?\\\\\\\\
+% \end{enumerate}
+
+% \subsection{The Flippant Juror}
+
+% (Frederick Mosteller, \textit{Fifty Challenging Problems in Probability}) A three-man jury has two members each of whom independently has probability $p$ of making the correct decision and a third member who flips a coin for each decision (majority rules). A one-man jury has probability $p$ of making the correct decision. Which jury has the better probability of making the correct decision?\\\\\\\\
+
+3. (Ryan Lee's section notes, 2014) Suppose that you have two coins. One of these coins is fair, meaning that it is heads with probability 1/2, and the other is heads with probability 3/4.
+
+\begin{enumerate}[(a)]
+    \item Let's say that you randomly select one of these two coins and you select each coin with probability 1/2. If you flip this randomly selected coin once, what is the probability that you flip a heads?
+    
+    \hide{We want the probability $P(H)$, for $H$ being the event that you flip heads. What we wish
+    we knew is whether you picked the fair or biased coin. We can therefore condition on the event that we
+    picked a fair coin, $F$, noting that we could have flipped a heads by picking the fair coin and doing so, or
+    by picking the biased coin and doing so. Formally, that amounts to the following: $$P(H) = P(H|F)P(F) + P(H|F^c)P(F^c) = \frac{1}{2}\cdot\frac{1}{2} + \frac{3}{4}\cdot\frac{1}{2} = \frac{5}{8}.$$}
+    
+    \item You randomly select a coin and flipped it two times, obtaining heads each time. What is the probability that you randomly selected the fair coin?
+    
+    \hide{Suppose $HH$ is the event that we obtain two heads in two coin flips, and F is again the event
+    that we picked the fair coin. What we want is $P(F|HH)$. Anytime we see an expression like this, the
+    first instinct should be to apply Bayes' Rule:
+    $$P(F|HH) = \frac{P(HH|F)P(F)}{P(HH)} = \frac{P(HH|F)P(F)}{P(HH|F)P(F) + P(HH|F^c)P(F^c)}.$$ This comes out to $\frac{4}{13}$.}
+    
+    \item Given this information, what is now the probability that if you flip the coin one more time, it will come up as heads?
+    
+    \hide{We want to condition everything on $HH$, since we know that the event has occurred. Thus,
+    we want $P(H|HH)$, i.e. the probability of seeing a heads given that we have already seen two heads.
+    The two heads tells us about the probability that we have selected the fair coin. Thus, similar to part
+    (a), we have:
+    $$P(H|HH) = P(H|F, HH)P(F|HH) + P(H|F^c, HH)P(F^c|HH) = \frac{1}{2}\cdot\frac{4}{13} + \frac{3}{4}\frac{9}{13} = \frac{35}{52}.$$
+    }
+\end{enumerate}
+
+\section{Monty Hall and More Conditional Probability}
+
+4. (William Chen and Sebastian Chiu, 2013) There are three doors, behind one of which there is a car and behind the other two of which there are goats. You want the car (hopefully). Initially, from your perspective, all possibilities are equally likely for where the car is. You choose a door, which we'll say is Door 1. Monty Hall opens a door with a goat in it, offers you the option of switching. In class, in the case that Monty Hall knows where the car is and would never reveal the car, the probability that the strategy of always switching succeeds is 2/3. Find the probability that the strategy of always switching succeeds...:
+
+\begin{enumerate}[(a)]
+    \item  If Monty Hall does not know what lies behind the doors and opens Door 2 at random that happens not to reveal the car.
+    
+    \hide{We can let $C_i$ be the event that the car is behind Door $i$, and $O_i$ be the event that Monty opens Door $i$ and there is no car in it. Note that $$P(O_2)=P(\text{No car behind Door 2})P(\text{Monty Hall chooses Door 2 over Door 3}) = (2/3)(1/2) = 1/3.$$ By Bayes' Rule, we have that $P(C_1|O_2) = \frac{P(O_2|C_1)P(C_1)}{P(O_2)}$. Thus $P(C_1|O_2) = \frac{(1/2)(1/3)}{(1/3)} = 1/2.$ The probability that the strategy of always switching succeeds is simply the complement of this: it is also 1/2.
+    
+    See that this result intuitively makes sense. If Monty Hall actually knows nothing about what is behind each of the doors and happens to reveal a goat by picking Door 2, then the fact that he picked Door 2 gives you no additional information about what is behind Door 3, the door that you would switch to if you were to switch. Therefore, the car is equally likely to be behind Door 1 and Door 3.}
+    
+    \item If Monty Hall always reveals a goat (he knows where the car is), and if he has a choice, he always chooses the leftmost goat, which may depend on the player's initial choice. In this case specifically, he has chosen to open Door 2 knowing that you chose Door 1.
+    
+    \hide{Here, we have that $P(O_2) = P(\text{No car behind Door 2}) = 2/3$. Thus it follows that
+    \[P(C_1|O_2) = \frac{P(O_2|C_1)P(C_1)}{P(O_2)} = \frac{1(1/3)}{2/3} = 1/2.\]}
+    
+\end{enumerate}
+
+\section{Simpson's Paradox}
+
+Statement of Paradox: 
+
+\hide{Simpson's Paradox says that X can be more successful than Y when compared within every group (Surgery Types, etc.), but still Y can be more successful than X when compared in the aggregate. This result is caused by a lurking variable, the groups, who 1) have a large impact on the success rate and 2) whose relative sizes are very different between X and Y.\\
+
+In statistical language, you can have that $$P(A|B, C) < P(A|B^c, C) \text{ and } P(A|B, C^c) < P(A|B^c, C^c) \text{ but }P(A|B) > P(A|B^c)$$
+where A is success, B is one of the things that you are comparing (e.g. Doctors), and C is one of the groups (e.g. Surgery Types).
+}
+
+5. Suppose statistics exams at MIT and Harvard are the same difficulty. On recent exams, Sarah got a higher percentage score on both the multiple-choice and short answer sections of her MIT exam than Emily did on the corresponding sections of her Stat 110 midterm. Knowing this, did Sarah necessarily do better than Emily on the exam overall? Why or why not?
+
+\hide{No. This is Simpson's Paradox. Imagine that Sarah got a 9/10 and 10/90 on the multiple-choice and short-answer sections, respectively, and Emily's scores were 80/90 and 1/10, respectively. Then Sarah did better in both sections, but because Sarah's test was weighted a lot more toward the harder short-answer section, she did worse overall.}
+
+\end{document}

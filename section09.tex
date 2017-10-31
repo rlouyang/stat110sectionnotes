@@ -1,0 +1,123 @@
+\documentclass{article}
+
+\def\sectionnumber{9}
+\def\sectiontitle{Conditional Expectation}
+
+% Set this =0 to hide, =1 to show
+\def\showanswers{1}
+
+\usepackage{common}
+
+\begin{document} 
+
+\header
+
+\begin{description}
+
+\item[Conditional expectation given an event] Given an event $A$, the conditional expectation of a discrete r.v.~$Y$ given that event is $$E(Y|A) = \sum_y yP(Y=y|A)$$
+
+\item[Conditional expectation given a r.v.] Given a r.v.~$X$, the conditional expectation $E(Y|X)$ is a RANDOM VARIABLE IN TERMS OF X. To find this random variable, you compute $$E(Y|X = x) = \sum_y yP(Y=y|X=x)$$ (in the case of discrete $Y$) which is a function of $x$, and then replace $x$ with $X$.
+
+\item[Linearity] Works just like in regular expectation.
+
+\item[Dropping what's independent] If $X, Y$ are independent, then $E(Y|X) = E(Y)$.
+
+\item[Taking out what's known] For any function $h$, $E(h(X)Y|X) = h(X)E(Y|X)$ since if you know $X$, you automatically know $h(X)$.
+
+\item[Law of Total Expectation] Analogous to LOTP, LOTE states that if $A_1$,...$A_n$ are events partitioning the sample space, then for any r.v.~$Y$,
+\[
+E(Y) = \sum_{i=1}^n E(Y|A_i)P(A_i)
+\]
+This can naturally be extended to r.v.'s. For example, if $X$ is a continuous r.v., then 
+\[
+E(Y) = \int_{-\infty}^{\infty} E(Y|X=x)f_X(x) dx
+\]
+
+\item[Adam's Law] This is probably the most important. $E(Y) = E(E(Y|X))$ for any r.v.~$X$, and is a compact restatement of the law of total expectation.
+
+\item[Conditional variance] Replace all expectations in the definition of variance with conditional expectations.
+
+\item[Eve's Law] The variance counterpart to Adam's Law. $\var(Y) = E(\var(Y|X)) + \var(E(Y|X))$. In normal language, this says that if you're looking for the variation among members of a group of groups, you can add the variation between the groups and the average variation between groups.
+
+
+\end{description}
+
+1. Let's suppose that we are measuring heights in a population. We believe that our measurement device gives the correct measurement, but with some measurement error, so that our measured heights are distributed:
+$$H_i \sim \N(\theta_i, 2^2)$$
+where $H_i$ is the measured height and $\theta_i$ is the true height. We don't know the true height of the person we are measuring (otherwise we wouldn't be measuring them!), and can represent this uncertainty by putting a distribution on the heights over the population as:
+$$\theta_i \sim \N(65, 10^2)$$
+
+(a) You are waiting in the measuring room, and the next person has yet to enter. What is your expectation of the measured height of that person, and what is the variance?
+
+\hide{$E(H) = E(E(H|\theta)) = E(\theta) = 65$ by Adam's Law, and $\var(H) = E(\var(H|\theta)) + \var(E(H|\theta)) = 2^2 + \var(\theta) = 104$ by Eve's Law.}
+
+(b) What's the covariance between the measured and actual heights?
+
+\hide{
+\begin{equation*}
+\begin{split}
+\cov(H, \theta) &= E(H\theta) - E(H)E(\theta) \\
+&= E(E(H\theta|\theta)) - E(E(H|\theta))E(\theta) \\
+&= E(\theta E(H|\theta)) - E(\theta)E(\theta) \\
+&= E(\theta^2) - E(\theta)^2 \\
+&= \var(\theta) \\
+&= 10^2
+\end{split}    
+\end{equation*}
+}
+
+2. Suppose that you are flipping a coin. Unfortunately, you don't know how biased the coin is (all real coins are biased, after all!); in other words, you don't know $p$, the probability of heads, for the coin. You model this uncertainty regarding $p$ by setting:
+$$p \sim \Beta(2, 2),$$
+which is centered at 1/2 but with some uncertainty. Suppose you flip the coin 100 times and count the number of heads, that is:
+$$Y|p \sim \Bin(100, p)$$
+
+What is the expected number of heads in the 100 tosses? What is the variance in the number of heads?
+
+\hide{$E(Y) = E(E(Y|p)) = E(100p) = 50$ (which makes sense). 
+\begin{equation*}
+\begin{split}
+\var(Y) &= E(\var(Y|p)) + \var(E(Y|p)) \\
+&= E(100p(1 - p)) + \var(100p) \\
+&= 50 - 100E(p^2) + 10^4\frac{1}{20} \\
+&= 50 - 100(\var(p) + E(p)^2) + 500 \\
+&= 550 - 30 \\
+&= 520
+\end{split}    
+\end{equation*}
+}
+
+3. Raymond the Rat starts in the bottom left square of a two-by-two square grid. Every second, he moves to one of the two adjacent squares with equal probability. What is the expected number of seconds before Raymond reaches the top right square for the first time? Hint: Label the squares 1, 2, 3, and 4 (say 1 is the starting square, 2 is the square above, 3 is the ending square, 4 is the bottom right square), let $T$ be the number of seconds to reach square 3, and let $X_0$ be the starting square (here $X_0=1$). Create a system of equations in terms of $q_i:=E(T|X_0=i)$ for $i \in \{1,2,3,4\}$. 
+
+\hide{We can set up a system of equations in $q_1$, $q_2$, $q_3$, and $q_4$ based on the law of total expectation/first step analysis. For example, starting from square 1, we condition on either moving to square 2 or square 4 in the next second (let $X_1$ be the square number Raymond moves to first). We have by (conditional) LOTE
+\[
+q_1 = E(T|X_0=1) = E(T|X_0=1,X_1=2)P(X_1=2|X_0=1) + E(T|X_0=1,X_1=4)P(X_1=4|X_0=1) 
+\]
+But $P(X_1=2|X_0=1) = P(X_1=4|X_0=1) = \frac{1}{2}$, and $E(T|X_0=1,X_1=2)=1+E(T|X_0=2)=1+q_2$ since once Raymond moves to square 2, the problem ''resets'' and it's like he started from square 2 (but we have to add 1 since he already used 1 second). Similarly $E(T|X_0=1,X_1=4)=1+q_4$. So then 
+\[
+q_1 = \frac{1}{2}(1+q_2+1+q_4) = 1 + \frac{1}{2}(q_2+q_4)
+\]
+We can use similar reasoning for the other squares, noting that $q_3=0$, to get the additional equations
+\begin{align*}
+q_2 & = 1 + \frac{1}{2}q_1 \\
+q_4 & = 1 + \frac{1}{2}q_1
+\end{align*}
+Plugging into the first equation gives 
+\[
+q_1 = 1 + \frac{1}{2}(1 + \frac{1}{2}q_1 + 1 + \frac{1}{2}q_1) = 2 + \frac{1}{2}q_1
+\]
+So $q_1 = \boxed{4}$. 
+}
+
+4. Customers arrive at an auction according to a Poisson process of rate $\lambda = 0.05$ $\textnormal{minute}^{-1}$. Each customer gives an independent bid for an item that follows a standard uniform distribution. The item is sold to the first customer who bids over b (where $b \in [0,1]$). What is the probability the item will be sold by the end of the first hour? Hint: fundamental bridge.
+
+\hide{Wishful thinking: let's condition on $N$, the number of customers that arrive in the first hour, which follows a $\Pois(60 \cdot 0.05) = \Pois(3)$ distribution by the properties of a Poisson process. Now we can use Adam's Law if we can convert our desired probability to an expectation. But this is indeed possible by the fundamental bridge; let $I$ be the indicator r.v.~for the event the item is sold in the first hour. Then $E(I) = E(E(I|N))$. Note that $E(I|N=n)$ is the probability that at least one of $n$ customers bids above $b$; this is $1-b^n$ by complementary counting (or the binomial PMF, if you prefer). So $E(I|N) = 1-b^N$, and we want to find $E(1-b^N) = 1-E(b^N)$. We can find $E(b^N)$ using LOTUS:
+\begin{align*}
+    E(b^N) & = \sum_{k=0}^{\infty} b^k \frac{e^{-3}3^k}{k!} \\
+    & = \sum_{k=0}^{\infty} \frac{e^{-3}(3b)^k}{k!} \\
+    & = e^{-3} \cdot e^{3b} \\
+    & = e^{3b-3}
+\end{align*}
+So the final answer is $\boxed{1-e^{3b-3}}$.}
+
+\end{document}
+

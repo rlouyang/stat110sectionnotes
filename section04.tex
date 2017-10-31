@@ -1,0 +1,207 @@
+\documentclass{article}
+
+\def\sectionnumber{4}
+\def\sectiontitle{Expectation, LOTUS, and Discrete Random Variables}
+
+% Set this =0 to hide, =1 to show
+\def\showanswers{1}
+
+\usepackage{common}
+
+\begin{document} 
+
+\header
+
+%\hide{For sections next week, the most important topic is expectation for discrete r.v.s (especially linearity, indicator r.v.s, and LOTUS), but it's also a good chance to further practice discrete r.v.s in general. On Tuesday we will start on continuous r.v.s (general concepts, Normal, Uniform), so if your section is after Tuesday's class you can, if you have time, also put in a little bit about continuous r.v.s, e.g., an example of continuous LOTUS.}
+
+\section{Recap: More Discrete Distributions and CDFs}
+
+\begin{description}
+    \item[Geometric distribution PMF and story] Flip a coin that lands heads with probability $p$. Then the number of tails you'll get before you flip heads for the first time is distributed as $\Geom(p)$. The PMF is given by $P(X=x) = p(1 - p)^x$ for $x \in \{0,1,...\}$.
+    
+    \item[First success distribution PMF and story] Flip a coin that lands heads with probability $p$. Then the number of the flip on which you'll get your first heads is distributed as $\FS(p)$. The PMF is given by $P(X=x) = p(1-p)^{x-1}$ for $x \in \{1,2,...\}$.
+    
+    \item[Hypergeometric distribution PMF and story] Let's say there are $w$ white balls and $b$ black balls in a jar. If you randomly pick $n$ of them without replacement, then the number of white balls $X$ you get $\sim \HGeom(w,b,n)$. We have $P(X=x) = \frac{\binom{w}{x} \cdot \binom{b}{n-x}}{\binom{w+b}{n}}$ for $x \in \{0,1,...,n\}$.
+    
+    \item[Definition of CDF] The Cumulative Density Function (CDF) of a r.v.~X is simply defined by $P(X \leq x)$. It's often denoted $F(x)$.
+    
+\end{description}
+
+% \begin{enumerate}[(a)]
+% \item Let $X \sim \FS(p)$. What is the CDF of $X$ evaluated at any integer $k$? \\
+% \hide{For nonpositive $k$, the CDF is just 0. For positive $k$, we compute 
+% \begin{align*}
+%     P(X \leq k) & = \sum_{i=1}^k P(X=i) \\
+%     & = \sum_{i=1}^k p(1-p)^{i-1} \\
+%     & = p \sum_{i=1}^k (1-p)^{i-1} \\
+%     & = \boxed{(1-(1-p)^k)}
+% \end{align*}}
+
+% \item What is the CDF of $1-X$ evaluated at any integer $k$? \\
+% \hide{We note
+% \[
+%   P(1-X \leq k) = P(X \geq 1-k) = 1-P(X < 1-k) = 1-P(X \leq -k)
+% \]
+% If $k$ is nonnegative, then the CDF is just 1. If $k$ is negative by part (a) we can evaluate
+% \[
+% 1-P(X \leq -k) = \boxed{(1-p)^k}
+% \]
+% }
+% \end{enumerate}
+
+\section{Expectation and Indicators}
+Definition of expectation for a discrete r.v.: \hide{$E(X) = \sum_{x \in \mathcal{S}} xP(X = x)$, where $\mathcal{S}$ is the support of $X$.}
+
+Indicator random variable: \hide{The indicator r.v.~$I_A$ for the event $A$ is a Bernoulli r.v.~that's 1 if $A$ occurs and 0 otherwise.}
+
+Fundamental bridge: \hide{The fundamental bridge states that $E(I_A) = P(A)$ for any event $A$.}
+
+Linearity of expectation: \hide{The expectation of the sum equals the sum of the expectations, even when the r.v.s being summed are correlated. In other words, $E(X+Y)=E(X)+E(Y)$ for any r.v.s $X$ and $Y$. We also have $E(cX) = cE(X)$ for any constant $c$.}
+
+Important sums: 
+\begin{itemize}
+\item Geometric series: $a+ar+...+ar^n = \frac{a(1-r^n)}{1-r}$ for $-1 < r < 1$; letting $n$ go to infinity gives $\frac{a}{1-r}$. 
+\item By Taylor series, $e^x = \sum_{k=0}^{\infty} \frac{x^k}{k!}$ 
+\end{itemize}
+
+
+
+1. Emmanuel randomly chooses 7 distinct numbers in the set $\{1,2,\dots,52\}$. Let $X$ be the number of pairs in Emmanuel's subset that sum to 53. What is $E(X)$? 
+
+\hide{Note that there are 26 valid pairs: $\{(1,52),(2,51),\dots, (26,27)\}$. Create an indicator variable $I_n$ for the event $F_n$ that the $n$-th pair is chosen ($1 \leq n \leq 26$). Then $X = \sum_{n=1}^{26} I_n$, and by linearity of expectation, the fundamental bridge, and symmetry we have
+\[
+E(X) = \sum_{n=1}^{26} E(I_n) = \sum_{n=1}^{26} P(F_n) = 26P(F_1)
+\]
+So it remains to calculate $P(F_1)$, the probability that both the numbers 1 and 52 are chosen. But we can use the naive definition of probability since each subset of 7 integers is equally likely to be chosen. There are $\binom{50}{5}$  possible choices of 7 numbers containing both 1 and 52, since aside from 1 and 52 we can pick any 5 of the remaining 50 numbers. Since there are $\binom{52}{7}$ total possible subsets, the final answer is $\boxed{\frac{26\binom{50}{5}}{\binom{52}{7}}}$}
+
+2. You throw pokeballs, which each have independent probability $p$ chance of success against Mew.
+
+\begin{enumerate}
+    \item[(a)] You plan to keep throwing Pokeballs until you catch Mew. What is the expected number of Pokeballs that will fail before you catch Mew?
+    
+    \hide{Let's let $X$ be the number of Pokeballs that fail before we catch Mew. We have independent trials with probability $p$ of success, and we are continuing until we are successful. That's exactly the story for the Geometric distribution, so $X \sim \Geom(p)$ and $E(X) = \frac{1 - p}{p}$.}
+    
+    \item[(b)] You're actually cheating, so you've set up the game such that every wild Pokemon encounter is with Mew. Since you love Stat 110, you've decided to try running into Mew $n$ times, and seeing how many runs of consecutive successes and failures you have in catching Mew. Compute the expected number of such runs (a string of any number of successes or a string of any number of failures).
+    
+    \hide{This problem is brilliant because it ties together three central concepts in probability and statistics, all in one setting! Let's let $Y$ be the number of runs (consecutive failures or successes) in our attempts to catch Mew. How do we compute the expected value of $Y$? The trick is to notice that we have a ``run" every time our current attempt results in something different from the previous attempt; i.e. if the previous attempt was a failure, and our current attempt is a success, then we have just added a ``run" (the one ended with the previous failure). Thus
+    $$Y = 1 + I_2 + I_3 + \cdots + I_n$$
+    where each $I_j$ is the indicator random variable for the event that the $j$th attempt is different from the $(j - 1)$th attempt. Note that we add the 1 at the beginning because we have to have at least 1 run (i.e. the first attempt is a ``run" in itself), and start counting from the second attempt. Now by linearity of expectation, we have
+    $$E(Y) = 1 + E(I_2) + E(I_3) + \cdots + E(I_n)$$
+    and we must figure out what $E(I_j)$ is. First, we note that every such $E(I_j)$ must be identical, since the probability that our attempt is different from the previous can't depend on what number attempt it is. Moreover, we realize from the fundamental bridge that
+    $$E(I_j) = P(\textrm{Current attempt yields different result from previous})$$
+    What is that probability? Well, letting $A_j$ be the event that the current attempt yields a different result from the previous attempt, and using first-step analysis, we have
+    $$P(A_j) = P(A_j|S_{j - 1})P(S_{j - 1}) + P(A_j|F_{j - 1})P(F_{j - 1})$$
+    where $S_{j-1}$, $F_{j-1}$ denote success or failure on attempt $j - 1$, respectively. We recall that $P(S_{j-1}) = p$, $P(F_{j-1}) = 1 - p$. Moreover, to have a different result on this trial given the previous was a success, we must have a failure this trial; and vice versa. Thus
+    \begin{equation*}
+    \begin{split}
+        P(A_j) &= P(A_j|S_{j - 1})P(S_{j - 1}) + P(A_j|F_{j - 1})P(F_{j - 1})\\
+        &= p(1 - p) + (1 - p)p\\
+        &= 2p(1 - p) = E(I_j)
+    \end{split}
+    \end{equation*}
+    So finally, we have
+    $$E(Y) = 1 + 2(n - 1)p(1 - p)$$
+    }
+    
+    
+\end{enumerate}
+
+3. A lazy high school senior types up applications and envelopes
+to $n$ different colleges. The letters are randomly put into the envelopes.
+
+\begin{enumerate}
+    \item[(a)] On average, how many applications went to the right college?
+    
+    \hide{We again use the combination trick of linearity of expectation, indicator random variables, and the fundamental bridge. We break X, the number of applications going to the right college, into its indicators:
+    $$X = I_1 + \cdots + I_n$$
+    where $I_j$ is the event that the $j$th application went to the right college. We then use linearity of expectation:
+    $$E(X) = E(I_1) + \cdots + E(I_n)$$
+    Finally, we use the fundamental bridge to note that
+    $$E(I_j) = P(j\textrm{th application went to right college})$$
+    We then note that the probability is simply $\frac{1}{n}$, since we are randomly putting the applications into envelopes, and each application has a $\frac{1}{n}$ chance of getting into the proper envelope. Thus, we have
+    $$E(X) = \sum_{i = 1}^n \frac{1}{n} = 1$$
+    }
+    
+    \item[(b)] A match occurs if college A receives college B's envelope AND if college B receives college A's envelope. On average, how many matches occur?
+    
+    \hide{Using the exact same trick as in part (a), we note that if $Y$ is the number of matches, then we can break it up into indicators for every pair of colleges:
+    $$Y = I_{1,2} + I_{1, 3} + \cdots + I_{1, n} + \cdots + I_{n-1, n}$$
+    This yields $\binom{n}{2}$ possible pairings, so that is the number of terms in the sum for $Y$. Again using linearity of expectation:
+    $$E(Y) = E(I_{1,2}) + E(I_{1, 3}) + \cdots + E(I_{1, n}) + \cdots + E(I_{n-1, n}) = \binom{n}{2}E(I_{i,j})$$
+    where in the last step we noted that every one of the expectations was identical. Thus, we employ the fundamental bridge:
+    $$E(I_{i,j}) = P(\textrm{$i$ matched with $j$})$$
+    That latter event is the same as the compound event that college $i$ received the application for $j$ and vice versa. The probability of this event is $\frac{1}{n}\frac{1}{n - 1}$, since $i$ has probability $1/n$ of receiving the application for $j$, and removing one potential application, the probability of $j$ also receiving the application for $i$ is $1/(n - 1)$. Thus, we have:
+    $$E(Y) = \binom{n}{2}\frac{1}{n}\frac{1}{n - 1} = \frac{n(n - 1)}{2}\frac{1}{n}\frac{1}{n - 1} = \frac{1}{2}$$
+    }
+\end{enumerate}
+
+4. In the wonderful Chinese card game of Tractor, two full decks of 54 cards (standard 52-card deck plus two jokers) are dealt evenly among four players, except 8 cards which are left face down (so each player starts with 25 cards). What is the expected number of pairs that a given player receives? A pair is defined as two identical cards from two different decks, and the two jokers are different.
+
+\hide{Note that there are 54 possible pairs. Then if for $n \in \{1,2,...,54\}$ we create an indicator r.v.~$I_n$ for the event $E_n$ that the player receives both cards in that pair, we have $X = \sum_{i=1}^{54} I_n$. By linearity of expectation and the fundamental bridge, $E(X) = \sum_{i=1}^{54} E(I_n) = \sum_{i=1}^{54} P(E_n)$. But by symmetry this is just $54P(E_1)$, i.e. 54 times the probability the player gets both red jokers. Let $R_i$ be the event that the player receives the $i$-th red joker, $i \in \{1,2\}$. Then 
+\[
+P(E_1) = P(R_1,R_2) = P(R_2|R_1)P(R_1) = \frac{24}{107} \cdot \frac{25}{108}
+\]
+This gives a final answer of about $\boxed{2.804}$.}
+
+5. (Coupon collector problem) You graduate college, get married, and have a kid. Your bratty toddler forces you to go to McDonalds every day until he collects all 10 of the possible Happy Meal toys. Suppose that at each visit, you are randomly given one of the toys with equal probability. On average, how many days will you have to go to McDonalds?
+
+\hide{The number of days $X$ is the sum of 10 FS random variables, where each ``success" is getting a toy your toddler doesn't already have. Note that the probabilities are $1, \frac{9}{10}, \frac{8}{10}, \cdots \frac{1}{10}$ because when your toddler has $i$ different toys, he has a probability of $\frac{10 - i}{10}$ of getting a toy you've never gotten before for $i \in \{0,1,...,9\}$.
+
+Using linearity, and the fact that the expectation of a $\FS(p)$ r.v.~is $\frac{1}{p}$, we get an answer of $\sum_{i = 0}^{9} \frac{1}{\frac{10-i}{10}} = \sum_{i=0}^9 \frac{10}{10-i} \approx \boxed{29.3}$.} \pagebreak
+
+6. Marie has 5 red balls and 6 blue balls.
+
+(a) What is the expected number of blue balls she will draw before drawing 5 red balls if she draws randomly with replacement?
+
+\hide{Let $G_1$ be the number of blue balls Marie draws before getting the first red ball, and $G_i$ be the number of blue balls Marie draws between the $i-1$ and $i$-th red ball for $i \in \{2,3,4,5\}$. Then we are looking for $E(G_1+...+G_5) = E(G_1)+...+E(G_5)$ by linearity. But each $G_i \sim \Geom(\frac{5}{11})$ by the story of the Geometric (``success" is drawing a red ball, ``failure" is drawing a blue ball) so by the formula for the expectation of a geometric distribution, the answer is $\frac{5 \cdot \frac{6}{11}}{\frac{5}{11}} = \boxed{6}$.}
+
+(b) *What is the expected number of blue balls she will draw before drawing 5 red balls if she now draws without replacement?
+
+\hide{The trick here is to create an indicator r.v.~$I_i$ for the event $E_i$ that the $i$-th blue ball is drawn before all 5 red balls are drawn ($i$ ranges from 1 to 6). Then we are trying to find $E(I_1+...+I_6) = \sum_{i=1}^6 P(E_i)$ by linearity and the fundamental bridge. But $P(E_i) = \frac{5}{6}$ by symmetry (the 5 red balls and the $i$-th blue ball are equally likely to be in any order) so the answer is just $\boxed{5}$.}
+
+
+\section{LOTUS}
+
+7. In order to truly appreciate how wonderful LOTUS is, you've decided to test out its magical powers for yourself by computing expectations for a bizarre array of random variables. For this problem, suppose that $X \sim \Bin(n, p_1)$, $Y \sim \Geom(p_2)$, and $Z \sim \Pois(\lambda)$. (Recall that the PMF of $Z$ is therefore $P(Z = k) = \frac{e^{-\lambda} \lambda^k}{k!}$ for $k = 0, 1, 2, ...$)
+
+\begin{enumerate}
+    \item[(a)] Suppose that A = $\frac{X}{n - X + 1}$. Find $E(A)$.
+    
+    \hide{Using LotUS, we have:
+    \begin{equation*}
+    \begin{split}
+    E(A) &= \sum_{k = 0}^\infty \frac{k}{n - k + 1} \binom{n}{k}p_1^k(1 - p_1)^{n - k}\\
+    &= \sum_{k = 0}^\infty \frac{k}{n - k + 1} \frac{n!}{k!(n - k)!}p_1^k(1 - p_1)^{n - k}\\
+    &= \sum_{k = 0}^\infty \frac{n!}{(k - 1)!(n - k + 1)!}p_1^k(1 - p_1)^{n - k}\\
+    &= \sum_{k = 0}^\infty \binom{n}{k - 1}p_1^k(1 - p_1)^{n - k}\\
+    &= \frac{p_1}{1 - p_1}\sum_{k = 0}^\infty \binom{n}{k - 1}p_1^{k - 1}(1 - p_1)^{n - (k - 1)}\\
+    &= \frac{p_1}{1 - p_1}\sum_{j = -1}^\infty \binom{n}{j}p_1^{j}(1 - p_1)^{n - j}\\
+    &= \frac{p_1}{1 - p_1}\sum_{j = 0}^\infty \binom{n}{j}p_1^{j}(1 - p_1)^{n - j}\\
+    &= \frac{p_1}{1 - p_1}
+    \end{split}
+    \end{equation*}
+    }
+    
+    \item[(b)] Suppose that $B = \frac{1}{1 + Z}$. What is $E(B)$? \\
+    \hide{
+    \begin{equation*}
+    \begin{split}
+    E(B) &= \sum_{k = 0}^\infty \frac{1}{1 + k} \frac{\lambda^ke^{-\lambda}}{k!}\\
+    &= \sum_{k = 0}^\infty \frac{1}{1 + k} \frac{\lambda^ke^{-\lambda}}{k!}\\
+    &= \sum_{k = 0}^\infty \frac{\lambda^ke^{-\lambda}}{(k + 1)!}\\
+    &= \frac{1}{\lambda}\sum_{k = 0}^\infty \frac{\lambda^{k + 1}e^{-\lambda}}{(k + 1)!}\\
+    &= \frac{1}{\lambda}\sum_{j = 1}^\infty \frac{\lambda^{j}e^{-\lambda}}{j!}\\
+    &= \frac{1}{\lambda}\left(1 - \frac{\lambda^0e^{-\lambda}}{0!}
+    \right)\\
+    &= \frac{1 - e^{-\lambda}}{\lambda}
+    \end{split}
+    \end{equation*}
+    }
+    
+\end{enumerate}
+
+
+
+
+\end{document}
+
