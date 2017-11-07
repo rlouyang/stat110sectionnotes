@@ -25,13 +25,13 @@
         
         \item $\cov(X, Y) = \cov(Y, X)$
         
-        \item $\cov(X, c) = \cov(c, X)$ for any constant $c$
+        \item $\cov(X, c) = \cov(c, X) = 0$ for any constant $c$
         
         \item $\cov(aX, Y) = a\cov(X, Y)$ for any constant $a$
         
         \item $\cov(X + Z, Y) = \cov(X, Y) + \cov(Z, Y)$ -- covariance is distributive (very similar to multiplication)
         
-        \item $\var(X_1 + \dots + \var(X_n)) = \var(X_1) + \dots + \var(X_n) + 2\sum_{i < j} \cov(X_i, X_j)$
+        \item $\var(X_1 + \dots + X_n) = \var(X_1) + \dots + \var(X_n) + 2\sum_{i < j} \cov(X_i, X_j)$
     \end{enumerate}
 
 \item[Correlation] $\corr(X, Y) = \frac{\cov(X, Y)}{\SD(X)\SD(Y)}$. Correlation $\rho$ always satisfies $-1 \leq \rho \leq 1$. Note that independent variables always have correlation zero, but the converse is not generally true (unless you're working with a multivariate normal, discussed below)
@@ -92,19 +92,19 @@ Now note that $I_i$ and $I_j$ are independent, since knowing that $i$ forms a cy
 
 \begin{description}
 
-\item[Story] Each of $n$ objects is placed randomly and independently into $k$ categories. The probability of being placed into category $i$ is $p_i$. Let $\mathbf{p} = (p_1, p_2, \dots, p_k)$. Then the distribution of the number of objects in each category is $\Mult_k(n, \mathbf{p})$. This is a generalized version of the Binomial (the first element of a $\Mult_2(n, \mathbf{p})$ is distributed as a $\Bin(n, p_1)$).
+\item[Story] Each of $n$ objects is placed randomly and independently into $k$ categories. The probability of being placed into category $i$ is $p_i$. Let $\mathbf{p} = (p_1, p_2, \dots, p_k)$. Then the distribution of the number of objects in each category is $\Mult_k(n, \mathbf{p})$. This is a generalized version of the Binomial (the $j$th element of a $\Mult_k(n, \mathbf{p})$ random vector is distributed as a $\Bin(n, p_j)$).
 
 \item[Joint PMF] $$P(X_1 = n_1, X_2 = n_2, \dots, X_k = n_k) = \frac{n!}{n_1!n_2!\cdots n_k!}p_1^{n_1}p_2^{n_2}\cdots p_k^{n_k}$$ You don't really have to remember this, but know that this is the generalization of the Binomial PMF.
 
-\item[Lumping] If you lump more than one of the $k$ categories together, the result is still Multinomial. For example, lumping categories 1 and 2 together results in a Multinomial with new probability $p_1 + p_2$. If you lump everything into two categories, the distribution of the number in a given category will be Binomial.
+\item[Lumping] If you lump more than one of the $k$ categories together, the result is still Multinomial. For example, lumping categories 1 and 2 together results in a Multinomial with new probability $p_1 + p_2$.
 
 \end{description}
 
-3. On July 4, 2012, the state of humanity's understanding of the universe took a large step forward with the discovery of the Higgs boson. Put simply, the way to discover the Higgs boson is to collide particles at high enough energies so that the boson is produced. Unfortunately, it decays extremely quickly into a bunch of elementary particles. For simplicity, let’s suppose that a Higgs boson decays into one of three possible pairs: 1) fermion pair; 2) W boson pair; 3) Z boson pair. The events occur with probabilities $p$, $q$, and $1-p-q$, respectively. 
+3. On July 4, 2012, the state of humanity's understanding of the universe took a large step forward with the discovery of the Higgs boson. Put simply, the way to discover the Higgs boson is to collide particles at high enough energies so that the boson is produced. Unfortunately, it decays extremely quickly into a bunch of elementary particles. For simplicity, let's suppose that a Higgs boson decays into one of three possible pairs: 1) fermion pair; 2) W boson pair; 3) Z boson pair. The events occur with probabilities $p$, $q$, and $1-p-q$, respectively. 
 
 (a) What is the PMF of $F, W, Z$, signifying the number of times each of the decay events occur, given that we produce $n$ Higgs bosons?
 
-\hide{$F, W, Z \sim \Mult_3(p, q, 1 - p - q)$}
+\hide{$F, W, Z \sim \Mult_3(n, (p, q, 1 - p - q))$}
 
 (b) What is the distribution of the number of fermion pair decays?
 
