@@ -15,10 +15,10 @@
 \section{Beta and Gamma Distributions}
 
 \begin{description}
-    \item[Beta PDF] The PDF of a $\Beta(a, b)$ random variable is $$\frac{1}{B(a, b)}x^{a - 1}(1 - x)^{b - 1}$$
-    where $B(a, b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a + b)}$ is the beta function.
+    \item[Beta PDF] For $a, b > 0$, the PDF of a $\Beta(a, b)$ random variable is $$\frac{1}{B(a, b)}x^{a - 1}(1 - x)^{b - 1}$$
+    where $0 < x < 1$ and $B(a, b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a + b)}$ is the beta function.
     
-    \item[Beta-Binomial conjugacy] States that the Beta distribution is a conjugate prior for the binomial distribution. A prior is a distribution we place on an random variable that reflects our belief about that random variable before any data is observed. Beta-binomial conjugacy then states that if we place a Beta prior on some random variable $p$, then if we observe data $X$ such that $X|p \sim \Bin(n,p)$ for some $n$, then $p|X$ still follows a Beta distribution. 
+    \item[Beta-Binomial conjugacy] States that the Beta distribution is a conjugate prior for the binomial distribution. A prior is a distribution we place on a random variable that reflects our belief about that random variable before any data is observed. Beta-binomial conjugacy then states that if we place a Beta prior on some random variable $p$, then if we observe data $X$ such that $X|p \sim \Bin(n,p)$ for some $n$, $p|X$ still follows a Beta distribution. 
     
     \item [Bayes' Billiards] This is a story proof that 
     $$\int_0^1\binom{n}{k}x^k(1 - x)^{n - k}dx = \frac{1}{n + 1}.$$
@@ -27,10 +27,11 @@
     \item[Gamma function] The Gamma function is a generalization of the factorial to all positive real numbers. It has the property that $\Gamma(n) = (n-1)!$ for positive integers $n$, and $\Gamma(a+1)=a\Gamma(a)$ for all $a > 0$. 
     
     \item[Gamma story and PDF] A $\Gam(n, \lambda)$ random variable has the same distribution as the sum of $n$ independent $\Expo(\lambda)$ r.v.s. The PDF of a $\Gam(a,\lambda)$ random variable (where $a$ and $\lambda$ are any positive reals) is given by 
-    $\frac{\lambda^a}{\Gamma(a)} x^{a-1}\exp(-\lambda x)$.
+    $\frac{\lambda^a}{\Gamma(a)} x^{a-1}\exp(-\lambda x), \  x> 0$.
     
     \item[Bank-post office] Given independent $X \sim \Gam(a, \lambda), Y \sim \Gam(b, \lambda)$ (wait time at the bank and post office, respectively), $T \equiv X + Y \sim \Gam(a + b, \lambda)$ and $W \equiv \frac{X}{X + Y} \sim \Beta(a, b)$. Moreover, $T$ and $W$ are independent.
 \end{description}
+
 1. Charlotte is dealing with government bureaucracy, and so needs to visit three different counters to get her passport stamped at Logan Airport. The time she spends at each counter is $\Expo(\lambda)$ (independently of the time spent at other counters). What is the distribution of the proportion of time spent at the first two counters?
 
 \hide{Let $X_1$, $X_2$, $X_3 \sim \Expo(\lambda)$ be the time spent at the first, second, and third counters, respectively. Then we are looking for the distribution of $Y \equiv \frac{X_1+X_2}{X_1+X_2+X_3}$. But $X_1+X_2 \sim \Gam(2,\lambda)$ by the story of the Gamma, and $X_3 \sim \Gam(1,\lambda)$, so by the Beta-Gamma story $Y \sim \boxed{\Beta(2,1)}$.} 
@@ -59,8 +60,8 @@ This is the form of a $\Gam(x+a,1+\theta)$ PDF (up to proportionality), as desir
     \item[Change of variables formula, general case] If $\mathbf{Y} = g(\mathbf{X})$, then $$f_\mathbf{Y}(\mathbf{y}) = f_\mathbf{X}(\mathbf{x})\left|\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right|.$$
     All the bold letters are vectors, and $\left|\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right|$ denotes the determinant of the Jacobian. The Jacobian is the matrix where element $i, j$ is $\frac{\partial x_i}{\partial y_j}$.
     
-    \item[Convolution sums and integrals] A convolution is just a sum. If $X$ and $Y$ are independent discrete r.v.'s, then the PMF of $X+Y$ is given by $P(X+Y=t) = \sum_x P(X=x)P(Y=t-x)$. If they are continuous, then if $f$ is the PDF of $X$ and $g$ is the CDF of $Y$, the PDF of $X+Y$ (call it $h$) is 
-    $$h(t) = \int_{-\infty}^{\infty} f(x)g(t-x) dx
+    \item[Convolution sums and integrals] A convolution is just a sum. If $X$ and $Y$ are independent discrete r.v.'s, then the PMF of $X+Y$ is given by $P(X+Y=t) = \sum_x P(X=x)P(Y=t-x)$. If they are continuous, then if $f_X$ is the PDF of $X$ and $f_Y$ is the CDF of $Y$, the PDF of $X+Y$ (call it $f_{X+Y}$) is 
+    $$f_{X+Y}(t) = \int_{-\infty}^{\infty} f_X(x)f_Y(t-x) dx
     $$
 \end{description}
 
@@ -88,10 +89,10 @@ $$f_{R, \theta}(r, \theta) = f_{X, Y}(r\cos\theta, r\sin\theta)
 \parts{x}{r} & \parts{x}{\theta} \\ 
 \parts{y}{r} & \parts{y}{\theta}  
 \end{vmatrix}
-= \frac{1}{\sqrt{2\pi}}\exp\left(-\frac{r^2}{2}\right)|r| = \left(r\exp\left(-\frac{r^2}{2}\right)\right)\left(\frac{1}{\sqrt{2\pi}}\right)
+= \frac{1}{2\pi}\exp\left(-\frac{r^2}{2}\right)|r| = \left(r\exp\left(-\frac{r^2}{2}\right)\right)\left(\frac{1}{2\pi}\right)
 $$
 Since the portions with $r$ and $\theta$ are separable, $R$ and $\theta$ are independent with PDFs 
-$$f_R(r) = r\exp\left(-\frac{r^2}{2}\right) \quad f_\theta(\theta) = \frac{1}{\sqrt{2\pi}}$$
+$$f_R(r) = r\exp\left(-\frac{r^2}{2}\right) \quad f_\theta(\theta) = \frac{1}{2\pi}$$
 This means that $\theta \sim \Unif(0, 2\pi)$, and this implies that the bivariate Normal with two independent standard Normals has points uniformly distributed around the origin at any given radius.
 }
 
@@ -140,7 +141,8 @@ so
 P(U_{(n-1)} \leq x | U_{(n)} = c) &= P(\text{remaining $n-1$ potatoes land to the left of }x | U_{(n)} = c) \\
 &= (x/c)^{n-1}
 \end{align*}
-so the PDF is $f_{U_{(2)}|U_{(3)}} = (n-1)(x/c)^{n-2}\cdot(1/c)$. Interestingly, this is the distribution of $cX$ where $X \sim \text{Beta}(n-1, 1)$, which you can verify with a change of variables.
+for $x < c$; the CDF is 1 otherwise.
+Then the PDF is $f_{U_{(n - 1)}|U_{(n)}} = (n-1)(x/c)^{n-2}\cdot(1/c)$. Interestingly, this is the distribution of $cX$ where $X \sim \text{Beta}(n-1, 1)$, which you can verify with a change of variables.
 }
 
 \end{document}
