@@ -62,7 +62,7 @@ $$\theta_i \sim \N(65, 10^2)$$
 &= E(\theta^2) - E(\theta)^2 \\
 &= \var(\theta) \\
 &= 10^2
-\end{split}    
+\end{split} 
 \end{equation*}
 }
 
@@ -82,17 +82,17 @@ What is the expected number of heads in the 100 tosses? What is the variance in 
 &= 50 - 100(\var(p) + E(p)^2) + 500 \\
 &= 550 - 30 \\
 &= 520
-\end{split}    
+\end{split} 
 \end{equation*}
 }
 
 3. Raymond the Rat starts in the bottom left square of a two-by-two square grid. Every second, he moves to one of the two adjacent squares with equal probability. What is the expected number of seconds before Raymond reaches the top right square for the first time? Hint: Label the squares 1, 2, 3, and 4 (say 1 is the starting square, 2 is the square above, 3 is the ending square, 4 is the bottom right square), let $T$ be the number of seconds to reach square 3, and let $X_0$ be the starting square (here $X_0=1$). Create a system of equations in terms of $q_i:=E(T|X_0=i)$ for $i \in \{1,2,3,4\}$. 
 
-\hide{We can set up a system of equations in $q_1$, $q_2$, $q_3$, and $q_4$ based on the law of total expectation/first step analysis. For example, starting from square 1, we condition on either moving to square 2 or square 4 in the next second (let $X_1$ be the square number Raymond moves to first). We have by (conditional) LOTE
+\hide{Note that the number of seconds it takes to get to the top right square depends on only Raymond's current square (and the number of seconds that have already elapsed). We can set up a system of equations in $q_1$, $q_2$, $q_3$, and $q_4$ based on the law of total expectation/first step analysis. For example, starting from square 1, we condition on either moving to square 2 or square 4 in the next second (let $X_1$ be the square number Raymond moves to first). We have by (conditional) LOTE
 \[
 q_1 = E(T|X_0=1) = E(T|X_0=1,X_1=2)P(X_1=2|X_0=1) + E(T|X_0=1,X_1=4)P(X_1=4|X_0=1) 
 \]
-But $P(X_1=2|X_0=1) = P(X_1=4|X_0=1) = \frac{1}{2}$, and $E(T|X_0=1,X_1=2)=1+E(T|X_0=2)=1+q_2$ since once Raymond moves to square 2, the problem ''resets'' and it's like he started from square 2 (but we have to add 1 since he already used 1 second). Similarly $E(T|X_0=1,X_1=4)=1+q_4$. So then 
+But $P(X_1=2|X_0=1) = P(X_1=4|X_0=1) = \frac{1}{2}$, and $E(T|X_0=1,X_1=2)=1+E(T|X_0=2)=1+q_2$ since once Raymond moves to square 2, the problem ``resets" and it's like he started from square 2 (but we have to add 1 since he already used 1 second). Similarly $E(T|X_0=1,X_1=4)=1+q_4$. So then 
 \[
 q_1 = \frac{1}{2}(1+q_2+1+q_4) = 1 + \frac{1}{2}(q_2+q_4)
 \]
@@ -108,16 +108,38 @@ q_1 = 1 + \frac{1}{2}(1 + \frac{1}{2}q_1 + 1 + \frac{1}{2}q_1) = 2 + \frac{1}{2}
 So $q_1 = \boxed{4}$. 
 }
 
-4. Customers arrive at an auction according to a Poisson process of rate $\lambda = 0.05$ $\textnormal{minute}^{-1}$. Each customer gives an independent bid for an item that follows a standard uniform distribution. The item is sold to the first customer who bids over b (where $b \in [0,1]$). What is the probability the item will be sold by the end of the first hour? Hint: fundamental bridge.
+4. Customers arrive at an auction according to a Poisson process of rate $\lambda = 0.05$ $\textnormal{minute}^{-1}$. Each customer gives an independent bid for an item that follows a standard uniform distribution. The item is sold to the first customer who bids over $b$ (where $b \in [0,1]$). What is the probability the item will be sold by the end of the first hour? Hint: fundamental bridge.
 
 \hide{Wishful thinking: let's condition on $N$, the number of customers that arrive in the first hour, which follows a $\Pois(60 \cdot 0.05) = \Pois(3)$ distribution by the properties of a Poisson process. Now we can use Adam's Law if we can convert our desired probability to an expectation. But this is indeed possible by the fundamental bridge; let $I$ be the indicator r.v.~for the event the item is sold in the first hour. Then $E(I) = E(E(I|N))$. Note that $E(I|N=n)$ is the probability that at least one of $n$ customers bids above $b$; this is $1-b^n$ by complementary counting (or the binomial PMF, if you prefer). So $E(I|N) = 1-b^N$, and we want to find $E(1-b^N) = 1-E(b^N)$. We can find $E(b^N)$ using LOTUS:
 \begin{align*}
-    E(b^N) & = \sum_{k=0}^{\infty} b^k \frac{e^{-3}3^k}{k!} \\
-    & = \sum_{k=0}^{\infty} \frac{e^{-3}(3b)^k}{k!} \\
-    & = e^{-3} \cdot e^{3b} \\
-    & = e^{3b-3}
+E(b^N) &= \sum_{k=0}^{\infty} b^k \frac{e^{-3}3^k}{k!} \\
+&= \sum_{k=0}^{\infty} \frac{e^{-3}(3b)^k}{k!} \\
+&= e^{-3} \cdot e^{3b} \\
+&= e^{3b-3}
 \end{align*}
 So the final answer is $\boxed{1-e^{3b-3}}$.}
+
+5. (BH 9.31) Customers arrive at a store according to a Poisson process of rate $\lambda$ customers per hour. Each makes a purchase with probability $p$, independently. Given that a customer makes a purchase, the amount spent has mean $\mu$ (in dollars) and variance $\sigma^2$.
+
+(a) Find the mean and variance of how much a random customer spends (note that the customer may spend nothing).
+
+\hide{Let $X$ be the amount that a random customer spends, and $I$ be the indicator of the random customer making a purchase. Then
+\[E(X) =E(X|I= 1)P(I= 1) +E(X|I= 0)P(I= 0) =\mu p,\]
+\[E(X^2) =E(X^2|I= 1)P(I= 1) +E(X^2|I= 0)P(I= 0) = (\sigma^2+\mu^2)p,\]
+\[\var(X) =E(X^2)-(EX)^2= (\sigma^2+\mu^2)p-\mu^2p^2=\sigma^2p+\mu^2p(1-p).\]}
+
+(b) Find the mean and variance of the revenue the store obtains in an 8-hour time interval, using (a) and results from this chapter.
+
+\hide{Let $N\sim \text{Pois}(8\lambda)$ be the number of customers who arrive in 8 hours. Let $R$ be the revenue from those customers. By Example 9.6.1,
+\[E(R) = 8\lambda\mu p,\]
+\[\var(R) = 8\lambda(\sigma^2 p+\mu^2p(1-p)) + 8\lambda\mu^2p^2= 8\lambda p(\sigma^2+\mu^2).\]}
+
+(c) Find the mean and variance of the revenue the store obtains in an 8-hour time interval, using the chicken-egg story and results from this chapter.
+
+\hide{By the chicken-egg story, the number of customers who arrive in 8 hours and will make a purchase is distributed Pois($8\lambda p$). Each of those customers spends an amount with mean $\mu$ and variance $\sigma^2$. As in (b), let $R$ be the revenue in those 8 hours (which is the total amount spent by the customers who make purchases). Then by Example 9.6.1, 
+\[E(R) = 8\lambda\mu p,\]
+\[\var(R) = 8\lambda p(\sigma^2+\mu^2)\]
+in agreement with (b).}
 
 \end{document}
 
