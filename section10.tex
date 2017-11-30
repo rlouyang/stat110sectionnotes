@@ -17,7 +17,7 @@
 \begin{description}
 \item[Cauchy-Schwarz] For r.v.'s $X$ and $Y$, $|E(XY)| \leq \sqrt{E(X^2)E(Y^2)}$. 
 
-\item[Convex function] A function $g$ is convex if the straight line connecting two points on its graph lies above the graph. If $g$ is twice differentiable, $g$ is convex iff $g''(x) > 0$. Note that a function does not have to be convex everywhere! (e.g. $g(x) = x^3$). 
+\item[Convex function] A function $g$ is convex if the straight line connecting any two points on its graph lies above the graph (it can sometimes but not always lie on the graph). If $g$ is twice differentiable, $g$ is convex iff $g''(x) > 0$. Note that a function does not have to be convex everywhere! (e.g. $g(x) = x^3$). 
 
 \item[Jensen] If $g(x)$ is convex, $X$ is a r.v., $E(g(X)) \geq g(E(X))$. 
 
@@ -59,13 +59,13 @@ For this section, let $X_1$,...,$X_n$ be i.i.d.~with $E(X_i) = \mu$, $\var(X_i) 
 
 \hide{ By Chebyshev,
 \[
-P(|\bar{X_n}-\mu| > \epsilon) \leq \frac{\var{\bar{X_n}}}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0 \text{ as $n \rightarrow \infty$}
+P(|\bar{X_n}-\mu| > \epsilon) \leq \frac{\var{\bar{X}_n}}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0 \text{ as $n \rightarrow \infty$}
 \]
 }
 
 3. [BH 10.22, adapted] Using the CLT, prove that a $\Pois(n)$ r.v.~converges to a Normal distribution for positive integers $n$ as $n \rightarrow \infty$. Give the appropriate mean and variance parameters (in terms of $n$). 
 
-\hide{ A $\Pois(n)$ is the sum of $n$ i.i.d $\Pois(1)$ r.v.'s., which have mean and variance 1. By the CLT, if $X_n \sim \Pois(n)$, then $\frac{X_n - n}{\sqrt{n}}$ converges to a $\N(0,1)$ distribution, so $X_n$ converges to a $\N(n,n)$ distribution }
+\hide{A $\Pois(n)$ is the sum of $n$ i.i.d $\Pois(1)$ r.v.'s., which have mean and variance 1. By the CLT, if $X_n \sim \Pois(n)$, then $\frac{X_n - n}{\sqrt{n}}$ converges to a $\N(0,1)$ distribution, so $X_n$ converges to a $\N(n,n)$ distribution.}
 
 4. [William Chen and Sebastian Chiu] William enters a casino with $X_0=1$ dollar. He repeatedly plays a game where with probability $\frac{1}{3}$, his money triples; otherwise, it decreases by a factor of $3$. Let $X_n$ be the amount of money William has after playing the game $n$ times. 
 
@@ -92,19 +92,19 @@ for all $n > 0$. By induction, $E(X_n) = (\frac{11}{9})^n$ which approaches infi
 
 \item[Definition] A sequence of r.v.'s $X_1$, $X_2$,... is said to be a (discrete-time) Markov Chain if $P(X_j = i|X_1=i_1,X_2=i_2,...,X_{j-1}=i_{j-1}) = P(X_j=i|X_{j-1}=i_{j-1})$ for all $i_1$,...,$i_{j-1}$ in the support of the $X_i$ (called the state space, which we denote $\{1,...,n\}$) and all $j > 1$. In other words, the distribution of states at time $t$ depends only on the state at time $t-1$. 
 
-\item[Transition matrix] For a Markov chain on $n$ states, the transition matrix (usually denoted $Q$) is an $n$-by-$n$ matrix where $Q_{i,j}$ (meaning the entry in the $i$-th row and $j$-th column) is $P(X_{k+1}=j|X_k=i)$ (this doesn't depend on $k$ by definition). The matrix $Q^n$ is the $n$-step transition matrix, i.e. $Q^n_{i,j} = P(X_{k+n}=j|X_k=i)$ (this is called the Chapman-Kolmogorov equation and follows from LOTP). The rows of any transition matrix must sum to 1 (why?)
+\item[Transition matrix] For a Markov chain on $n$ states, the transition matrix (usually denoted $\mathbf{Q}$) is an $n$-by-$n$ matrix where $q_{i,j}$ (meaning the entry in the $i$-th row and $j$-th column) is $P(X_{k+1}=j|X_k=i)$ (this doesn't depend on $k$ by definition). The matrix $\mathbf{Q}^n$ is the $n$-step transition matrix, i.e. $q^n_{i,j} = P(X_{k+n}=j|X_k=i)$ (this is called the Chapman-Kolmogorov equation and follows from LOTP). The rows of any transition matrix must sum to 1 (why?)
 
 \item[Stationary distribution] If the chain has the stationary distribution at time $t = t_0$, then it will have the stationary distribution at all times $t \geq t_0$. The stationary distribution is a vector of probabilities.
 
-\item[Reversibility] If $s = (s_1,...,s_n)$ is a vector satisfying $s_iQ_{i,j} = s_jQ_{j,i}$ for all $i$, $j \in \{1,...,n\}$ for a transition matrix $Q$ with $\sum_{i=1}^n s_i = 1$, then $s$ is a stationary distribution for the Markov chain with transition matrix $Q$. Examples include any undirected graph and any symmetric chain. 
+\item[Reversibility] If $\mathbf{s} = (s_1,...,s_n)$ is a vector satisfying $s_iq_{i,j} = s_jq_{j,i}$ for all $i$, $j \in \{1,...,n\}$ for a transition matrix $\mathbf{Q}$ with $\sum_{i=1}^n s_i = 1$, then the chain is reversible. Additionally, reversibility implies that $\mathbf{s}$ is a stationary distribution for the Markov chain with transition matrix $\mathbf{Q}$. Examples include any undirected graph and any symmetric chain. 
 
 \item[Recurrent] If you're at a recurrent state, you'll come back eventually with probability 1.
 
 \item[Transient] If you're at a transient state, there is some positive probability that you'll never come back.
 
-\item[Periodic] It's only possible to return to a periodic state in multiples of some $c > 1$.
+\item[Periodic] If a state is periodic, then it's only possible to return to it in multiples of some $c > 1$.
 
-\item[Irreducible] You can get from any state to any other state.
+\item[Irreducible] Irreducibility means that you can get from any state to any other state.
 
 \end{description}
 5. Consider a four-state Markov Chain with transition matrix
@@ -124,7 +124,7 @@ Q =
 
 \item Suppose we start at the first state. What is the probability of being in the third state after 2 time steps? 
 
-\hide{By the algebraic form of Chapman-Kolmogorov, we have $q_{13}^{(2)} = q_{11}q_{13}+ q_{12}q_{23} + q_{13}q_{33} + q_{14}q_{43} = 0 + 0.2 \cdot 0.3 + 0.5 \cdot 0.1 + 0 = \boxed{0.11}$. If you want a more mechanical way of doing this just square $Q$ and look at $Q^2_{13}$. That gives you all of the 2-step transition probabilities!}
+\hide{By the algebraic form of Chapman-Kolmogorov, we have $q_{13}^{(2)} = q_{11}q_{13}+ q_{12}q_{23} + q_{13}q_{33} + q_{14}q_{43} = 0 + 0.2 \cdot 0.3 + 0.5 \cdot 0.1 + 0 = \boxed{0.11}$ (where $q_{ij}^{(t)}$ is the probability of getting from $i$ to $j$ in $t$ steps). If you want a more mechanical way of doing this just square $Q$ and look at $q^2_{13}$. That gives you all of the 2-step transition probabilities!}
 
 \item Find the stationary distribution of this Markov Chain. 
 
@@ -135,7 +135,7 @@ Q =
 6. What is the stationary distribution for a two-state Markov chain with $q_{11} = \alpha$, $q_{22} = \beta$ where $0 < \alpha$, $\beta < 1$?
 
 \hide{The stationary distribution takes the form $(x, 1-x)$ for some $x \in [0, 1]$. Let's try reversibility, which would require $x(1-\alpha) = (1-x)(1-\beta)$. Solving gives
-$x = \frac{1-\beta}{2-\alpha-\beta}$ so the stationary distribution is $\boxed{(\frac{1-\beta}{2-\alpha-\beta}, \frac{1-\alpha}{2-\alpha-\beta})}$.}
+$x = \frac{1-\beta}{2-\alpha-\beta}$ so the stationary distribution is $\boxed{\left(\frac{1-\beta}{2-\alpha-\beta}, \frac{1-\alpha}{2-\alpha-\beta}\right)}$.}
 
 \end{document}
 
