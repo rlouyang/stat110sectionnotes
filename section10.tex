@@ -47,19 +47,19 @@
 \section{Law of Large Numbers, Central Limit Theorem}
 For this section, let $X_1$,...,$X_n$ be i.i.d.~with $E(X_i) = \mu$, $\var(X_i) = \sigma^2$.
 \begin{description}
-\item[Weak LLN] For any $\epsilon>0$ that $P(|\bar{X_n}-\mu| > \epsilon) \rightarrow 0$ as $n \rightarrow \infty$. 
+\item[Weak LLN] For any $\epsilon>0$ that $P(|\bar{X}_n-\mu| > \epsilon) \rightarrow 0$ as $n \rightarrow \infty$. 
 
-\item[Strong LLN] $\bar{X_n} \rightarrow \mu$ (this notation refers to convergence ``almost surely" of random variables). Requires some technical assumptions to hold, e.g. the 4th moments are bounded.
+\item[Strong LLN] $\bar{X}_n \rightarrow \mu$ (this notation refers to convergence ``almost surely" of random variables). Requires some technical assumptions to hold, e.g. the 4th moments are bounded.
 
-\item[Central Limit Theorem] The distribution of $\frac{\bar{X_n}-\mu}{\sigma/\sqrt{n}}$ converges to the $\N(0,1)$ distribution. Note that $E(\bar{X_n}) = \mu$, $\var(\bar{X_n}) = \frac{\sigma}{\sqrt{n}}$. 
+\item[Central Limit Theorem] The distribution of $\frac{\bar{X}_n-\mu}{\sigma/\sqrt{n}}$ converges to the $\N(0,1)$ distribution. Note that $E(\bar{X}_n) = \mu$, $\var(\bar{X}_n) = \frac{\sigma}{\sqrt{n}}$. 
 
 \end{description}
 
 2. Prove the weak LLN using Chebyshev's inequality.
 
-\hide{ By Chebyshev,
+\hide{By Chebyshev,
 \[
-P(|\bar{X_n}-\mu| > \epsilon) \leq \frac{\var{\bar{X}_n}}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0 \text{ as $n \rightarrow \infty$}
+P(|\bar{X}_n-\mu| > \epsilon) \leq \frac{\var{\bar{X}_n}}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2} \rightarrow 0 \text{ as $n \rightarrow \infty$}
 \]
 }
 
