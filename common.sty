@@ -26,6 +26,8 @@
 \usepackage{xfrac}
 \usepackage{hyperref}
 \usepackage{enumerate}
+\usepackage{mdframed}
+\usepackage{comment}
 
 \newcommand{\lambdabold}{\mbox{\boldmath$\lambda$}}
 \newcommand{\mubold}{\mbox{\boldmath$\mu$}}           
@@ -54,7 +56,7 @@
 \newcommand{\FS}{\textrm{FS}}
 \newcommand{\NBin}{\textrm{NBin}}
 
-\newcommand{\comment}[1]{}
+% \newcommand{\comment}[1]{}
 \newcommand{\parts}[2]{\frac{\partial #1}{\partial #2}}
 
 \DeclareSymbolFont{symbolsC}{U}{txsyc}{m}{n}
@@ -84,23 +86,65 @@
 \newcommand{\header}{
     \notes
     {Statistics 110: Introduction to Probability}
-    {Section \sectionnumber \ifnum\showanswers=1 { Solutions}\fi}
+    {Section \sectionnumber \ifthenelse{\boolean{showanswers}}{ Solutions}{}}
     {Richard Ouyang (rouyang@college.harvard.edu)}
     {Catherine Li (catherineli@college.harvard.edu)}
     {\sectiontitle}
     
 }
  
-\newcommand{\hide}[1]{
-   \ifnum\showanswers=1
-   \vspace{12pt}
-   \textbf{Solution. } #1 \vspace{\baselineskip}
-   \fi
+% \newcommand{\hide}[1]{
+%   \ifnum\showanswers=1
+%   \vspace{12pt}
+%   \textbf{Solution. } #1 \vspace{\baselineskip}
+%   \fi
  
-   \ifnum\showanswers=0
-   \vspace{1.5in}% \hspace{2cm}
-   \fi
+%   \ifnum\showanswers=0
+%   \vspace{1.5in}% \hspace{2cm}
+%   \fi
+% }
+
+\newcommand{\hide}[1]{
+    \ifthenelse{\boolean{showanswers}}
+    {
+    \vspace{12pt}
+    \textbf{Solution. } #1 \vspace{\baselineskip}
+    }
+    {
+    \vspace{1.5in}% \hspace{2cm}
+    }
 }
 
 \setlength{\parindent}{0.0in}
 % \setlength{\parskip}{0.0in}
+
+% solution formatting
+\definecolor{veryLightGray}{rgb}{0.87,0.87,0.87}
+
+\mdfdefinestyle{solutionstyle}{
+    linecolor=black,
+    linewidth=2pt,
+    roundcorner=10pt,
+    backgroundcolor=veryLightGray,
+    innerbottommargin=10pt,
+}
+
+\newenvironment{solution}
+    {
+    \begin{mdframed}[style=solutionstyle, frametitle={Solution.}]
+    }
+    {     
+    \end{mdframed}
+    }
+    
+% \specialcomment{solution}
+%     {
+%     \begin{mdframed}[style=solutionstyle, frametitle={Solution.}]
+%     }
+%     {
+%     \end{mdframed}
+%     }
+    
+\newboolean{showanswers}
+
+% \ifthenelse{\boolean{showanswers}}{}{\excludecomment{solution}}
