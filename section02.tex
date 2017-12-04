@@ -35,9 +35,9 @@ $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
 
 % \hide{To use inclusion-exclusion, we need to write the desired event as a union of other events. You might
 % be tempted to let A be the event that the red bag is not empty and B be the event the blue bag is not
-% empty and take $A \cup B$\dots except the question is asking for $A \cap B$. So instead we use complementary counting, remembering DeMorgan's Law $(A \cap B)^C = A^C \cup B^C$. $A^C$ is the event the red bag is empty, and $B^C$ is the event the blue bag is empty. By the multiplication rule, there are $2^7 = 128$ ways to distribute the candies so that
-% the red bag is empty -- each of the 7 candies has two choices of bags of where to go. So $|A^C| = 128$, and
-% similarly $|B^C | = 128$. Also, $|A^C \cap B^C | = 1$ since there is only one way for both the red and blue bags to be empty. This gives by inclusion-exclusion $$|A^C \cup B^C| = |A \cap B| + |A^C| + |B^C| - |A^C \cap B^C| = 255$$
+% empty and take $A \cup B$\dots except the question is asking for $A \cap B$. So instead we use complementary counting, remembering DeMorgan's Law $(A \cap B)^\complement = A^\complement \cup B^\complement$. $A^\complement$ is the event the red bag is empty, and $B^\complement$ is the event the blue bag is empty. By the multiplication rule, there are $2^7 = 128$ ways to distribute the candies so that
+% the red bag is empty -- each of the 7 candies has two choices of bags of where to go. So $|A^\complement| = 128$, and
+% similarly $|B^\complement| = 128$. Also, $|A^\complement \cap B^\complement | = 1$ since there is only one way for both the red and blue bags to be empty. This gives by inclusion-exclusion $$|A^\complement \cup B^\complement| = |A \cap B| + |A^\complement| + |B^\complement| - |A^\complement \cap B^\complement| = 255$$
 % So we've found the size of the complement. There are $3^7$ total arrangements of the candies, so the final answer is $3^7 - 255 = \boxed{1942}$.}
 
 \section{Conditional Probability and Independence}
@@ -63,7 +63,7 @@ $$P(A|B) = \frac{P(A, B)}{P(B)}$$
 
 \subsection{Law of Total Probability}
 
-$$P(A) = P(A|B)P(B) + P(A|B^c)P(B^c)$$
+$$P(A) = P(A|B)P(B) + P(A|B^\complement)P(B^\complement)$$
 More generally, if $B_1, \cdots, B_n$ partition a space into $n$ disjoint sets, you have 
 
 $$P(A) = P(A|B_1)P(B_1) + \cdots + P(A|B_n)P(B_n)$$
@@ -100,9 +100,9 @@ $$P(A, B|C) = P(A|C)P(B|C)$$
 % $$0.5 = 0.4 + P(B) - 0.4P(B)$$
 % Solving gives $P(B) = \boxed{\frac{1}{6}}$.}
 
-1. Suppose events $A$ and $B$ are conditionally independent given $C$. Is it true that $A$ and $B^C$ are also conditionally independent given $C$? How about $A^C$ and $B^C$?
+1. Suppose events $A$ and $B$ are conditionally independent given $C$. Is it true that $A$ and $B^\complement$ are also conditionally independent given $C$? How about $A^\complement$ and $B^\complement$?
 
-\hide{Note that $P(B|A, C) = P(B|C)$ implies $P(B^c|A, C) = P(B^c|C)$, which implies $P(A|B^c, C) = P(A|C)$, which implies $P(A^c|B^c, C) = P(A^c|C)$.}
+\hide{Note that $P(B|A, C) = P(B|C)$ implies $P(B^\complement|A, C) = P(B^\complement|C)$, which implies $P(A|B^\complement, C) = P(A|C)$, which implies $P(A^\complement|B^\complement, C) = P(A^\complement|C)$.}
 
 \section{Bayes' Rule}
 
@@ -114,7 +114,7 @@ $$P(A|B) = \frac{P(B|A)P(A)}{P(B)}$$
 
 \subsection{Bayes' Rule with the Law of Total Probability}
 
-$$P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^c)P(A^c)}$$
+$$P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^\complement)P(A^\complement)}$$
 
 \begin{itemize}
     \item You'll be using this a lot in your homework.
@@ -128,7 +128,7 @@ $$P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^c)P(A^
 \begin{enumerate}[(a)]
     \item What is the probability that you never make it to Oz?
     
-    \hide{Let $O$ be the event that you'll make it to Oz. Then we're just looking for $P(O^c)$, which is $1 - 0.042 = 0.958$.}
+    \hide{Let $O$ be the event that you'll make it to Oz. Then we're just looking for $P(O^\complement)$, which is $1 - 0.042 = 0.958$.}
     
     \item Is getting to Oz independent of being a tornado hunter? Why or why not?
     
@@ -140,8 +140,8 @@ $$P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^c)P(A^
     $P(T|O)$, we immediately apply Bayes' Rule, finding that:
     $$P(T|O) = \frac{P(O|T)P(T)}{P(O)}.$$
     We now need $P(T)$. Use LoTP on $O$ and solve for $P(T)$:
-    $$P(O) = P(O|T)P(T) + P(O|T^c)(1 - P(T)) \rightarrow$$
-    $$P(T) = \frac{P(O) - P(O|T^c)}{P(O|T) - P(O|T^c)}.$$
+    $$P(O) = P(O|T)P(T) + P(O|T^\complement)(1 - P(T)) \rightarrow$$
+    $$P(T) = \frac{P(O) - P(O|T^\complement)}{P(O|T) - P(O|T^\complement)}.$$
     
     Plugging in numbers gives $P(T) \approx 0.091$ and then $P(T|O) \approx 0.91$.
     }
@@ -181,14 +181,14 @@ $$P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^c)P(A^
     \hide{We want the probability $P(H)$, for $H$ being the event that you flip heads. What we wish
     we knew is whether you picked the fair or biased coin. We can therefore condition on the event that we
     picked a fair coin, $F$, noting that we could have flipped a heads by picking the fair coin and doing so, or
-    by picking the biased coin and doing so. Formally, that amounts to the following: $$P(H) = P(H|F)P(F) + P(H|F^c)P(F^c) = \frac{1}{2}\cdot\frac{1}{2} + \frac{3}{4}\cdot\frac{1}{2} = \frac{5}{8}.$$}
+    by picking the biased coin and doing so. Formally, that amounts to the following: $$P(H) = P(H|F)P(F) + P(H|F^\complement)P(F^\complement) = \frac{1}{2}\cdot\frac{1}{2} + \frac{3}{4}\cdot\frac{1}{2} = \frac{5}{8}.$$}
     
     \item You randomly select a coin and flipped it two times, obtaining heads each time. What is the probability that you randomly selected the fair coin?
     
     \hide{Suppose $HH$ is the event that we obtain two heads in two coin flips, and F is again the event
     that we picked the fair coin. What we want is $P(F|HH)$. Anytime we see an expression like this, the
     first instinct should be to apply Bayes' Rule:
-    $$P(F|HH) = \frac{P(HH|F)P(F)}{P(HH)} = \frac{P(HH|F)P(F)}{P(HH|F)P(F) + P(HH|F^c)P(F^c)}.$$ This comes out to $\frac{4}{13}$.}
+    $$P(F|HH) = \frac{P(HH|F)P(F)}{P(HH)} = \frac{P(HH|F)P(F)}{P(HH|F)P(F) + P(HH|F^\complement)P(F^\complement)}.$$ This comes out to $\frac{4}{13}$.}
     
     \item Given this information, what is now the probability that if you flip the coin one more time, it will come up as heads?
     
@@ -196,7 +196,7 @@ $$P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^c)P(A^
     we want $P(H|HH)$, i.e. the probability of seeing a heads given that we have already seen two heads.
     The two heads tells us about the probability that we have selected the fair coin. Thus, similar to part
     (a), we have:
-    $$P(H|HH) = P(H|F, HH)P(F|HH) + P(H|F^c, HH)P(F^c|HH) = \frac{1}{2}\cdot\frac{4}{13} + \frac{3}{4}\frac{9}{13} = \frac{35}{52}.$$
+    $$P(H|HH) = P(H|F, HH)P(F|HH) + P(H|F^\complement, HH)P(F^\complement|HH) = \frac{1}{2}\cdot\frac{4}{13} + \frac{3}{4}\frac{9}{13} = \frac{35}{52}.$$
     }
 \end{enumerate}
 
@@ -224,7 +224,7 @@ Statement of Paradox:
 
 \hide{Simpson's Paradox says that X can be more successful than Y when compared within every group (Surgery Types, etc.), but still Y can be more successful than X when compared in the aggregate. This result is caused by a lurking variable, the groups, who 1) have a large impact on the success rate and 2) whose relative sizes are very different between X and Y.\\
 
-In statistical language, you can have that $$P(A|B, C) < P(A|B^c, C) \text{ and } P(A|B, C^c) < P(A|B^c, C^c) \text{ but }P(A|B) > P(A|B^c)$$
+In statistical language, you can have that $$P(A|B, C) < P(A|B^\complement, C) \text{ and } P(A|B, C^\complement) < P(A|B^\complement, C^\complement) \text{ but }P(A|B) > P(A|B^\complement)$$
 where A is success, B is one of the things that you are comparing (e.g. Doctors), and C is one of the groups (e.g. Surgery Types).
 }
 
