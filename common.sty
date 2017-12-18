@@ -26,8 +26,11 @@
 \usepackage{xfrac}
 \usepackage{hyperref}
 \usepackage{enumerate}
-\usepackage{mdframed}
 \usepackage{comment}
+\usepackage{color}
+\usepackage{palatino}
+\usepackage{tikz}
+\usepackage[framemethod=TikZ]{mdframed}
 
 \newcommand{\lambdabold}{\mbox{\boldmath$\lambda$}}
 \newcommand{\mubold}{\mbox{\boldmath$\mu$}}           
@@ -104,17 +107,6 @@
 %   \fi
 % }
 
-\newcommand{\hide}[1]{
-    \ifthenelse{\boolean{showanswers}}
-    {
-    \vspace{12pt}
-    \textbf{Solution. } #1 \vspace{\baselineskip}
-    }
-    {
-    \vspace{1.5in}% \hspace{2cm}
-    }
-}
-
 \setlength{\parindent}{0.0in}
 % \setlength{\parskip}{0.0in}
 
@@ -136,15 +128,19 @@
     {     
     \end{mdframed}
     }
-    
-% \specialcomment{solution}
-%     {
-%     \begin{mdframed}[style=solutionstyle, frametitle={Solution.}]
-%     }
-%     {
-%     \end{mdframed}
-%     }
+
+\newcommand{\hide}[1]{
+    \ifthenelse{\boolean{showanswers}}
+    {
+        \vspace{\baselineskip}
+        \begin{solution}
+        #1 
+        \end{solution}
+        \vspace{\baselineskip}
+    }
+    {
+        \vspace{1.5in}% \hspace{2cm}
+    }
+}
     
 \newboolean{showanswers}
-
-% \ifthenelse{\boolean{showanswers}}{}{\excludecomment{solution}}
