@@ -83,7 +83,7 @@
 		}
 	}
 	\end{center}
-	\vspace*{4mm}
+	\vspace*{-5mm}
 }
 
 \newcommand{\header}{
@@ -93,9 +93,16 @@
     {Richard Ouyang (rouyang@college.harvard.edu)}
     {Catherine Li (catherineli@college.harvard.edu)}
     {\sectiontitle}
-    
+    \blfootnote{Thanks to Harrison Li (Statistics and Mathematics '18) for helping create these notes.}
 }
- 
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
 % \newcommand{\hide}[1]{
 %   \ifnum\showanswers=1
 %   \vspace{12pt}
