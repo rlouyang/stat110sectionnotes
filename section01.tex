@@ -6,7 +6,7 @@
 \usepackage{common}
 
 % Set this false to hide, true to show
-\setboolean{showanswers}{true}
+\setboolean{showanswers}{false}
 
 \begin{document}
 
@@ -96,7 +96,7 @@ allow you to win the jackpot, and each combination is equally likely by symmetry
 
 (b) What is the probability you match exactly three white balls but not the powerball?
 
-\hide{(b) There are still $26\binom{69}{5} = 292,201,338$ possible drawings. The number of white ball combinations giving
+\hide{There are still $26\binom{69}{5} = 292,201,338$ possible drawings. The number of white ball combinations giving
 exactly three matches is $\binom{5}{3}\binom{64}{2}$ since there are $\binom{5}{3}$ choices for the three matching white balls, while the remaining two non-matching white balls must come from any of the $69-5 = 64$ balls you didn't pick. Finally,
 there are $26 - 1 = 25$ choices for the powerball that don't match. Again by the naive definition, the desired
 probability is $\boxed{\frac{25\binom{5}{3}\binom{64}{2}}{26\binom{69}{5}} \approx \frac{1}{580}}$.}
@@ -123,21 +123,21 @@ the final answer is $\boxed{\frac{64! \cdot 2^{64}}{128!}}$.}
 
 % NOTE FROM CATHERINE: BH 1.14 is on the 2017 homework ... how about BH 1.10?
 
-% 5. (BH 1.14) You are ordering two pizzas. A pizza can be small, medium, large, or extra large, with any
-% combination of 8 possible toppings (getting no toppings is allowed, as is getting all 8). How many possibilities are there for your two pizzas?
+5. (BH 1.14) You are ordering two pizzas. A pizza can be small, medium, large, or extra large, with any
+combination of 8 possible toppings (getting no toppings is allowed, as is getting all 8). How many possibilities are there for your two pizzas?
 
-% \hide{There are 28 possible topping choices as there are $2^n$ possible subsets of a set of size $n$ (why?). With 4 size choices, the total number of choices for each pizza is $4 \cdot 2 \cdot 8 = 2^{10} = 1024$ by the multiplication rule. So there are 1024 ways to choose two identical pizzas. What if they're different? Since order doesn't matter, there
-% are $\binom{1024}{2} = \frac{1024\cdot 1023}{2}$ ways to choose two different pizzas. The answer is then $\boxed{1024 + \frac{1024\cdot 1023}{2} = 524,800}$.}
+\hide{There are 28 possible topping choices as there are $2^n$ possible subsets of a set of size $n$ (why?). With 4 size choices, the total number of choices for each pizza is $4 \cdot 2 \cdot 8 = 2^{10} = 1024$ by the multiplication rule. So there are 1024 ways to choose two identical pizzas. What if they're different? Since order doesn't matter, there
+are $\binom{1024}{2} = \frac{1024\cdot 1023}{2}$ ways to choose two different pizzas. The answer is then $\boxed{1024 + \frac{1024\cdot 1023}{2} = 524,800}$.}
 
-5. (BH 1.10) To fulfill the requirements for a certain degree, a student can choose to take any 7 out of a list of 20 courses, with the constraint that at least 1 of the 7 courses must be a statistics course.  Suppose that 5 of the 20 courses are statistics courses.
+% 5. (BH 1.10) To fulfill the requirements for a certain degree, a student can choose to take any 7 out of a list of 20 courses, with the constraint that at least 1 of the 7 courses must be a statistics course.  Suppose that 5 of the 20 courses are statistics courses.
 
-(a) How many choices are there for which 7 courses to take?
+% (a) How many choices are there for which 7 courses to take?
 
-\hide{There are $\binom{20}{7}$ ways to choose 7 courses if there are no constraints, but $\binom{15}{7}$ of these have no statistics courses. So the answer is $\boxed{\binom{20}{7} - \binom{15}{7} = 71085}$.}
+% \hide{There are $\binom{20}{7}$ ways to choose 7 courses if there are no constraints, but $\binom{15}{7}$ of these have no statistics courses. So the answer is $\boxed{\binom{20}{7} - \binom{15}{7} = 71085}$.}
 
-(b) Explain intuitively why the answer to (a) is \textit{not} $\binom{5}{1} \cdot \binom{19}{6}$.
+% (b) Explain intuitively why the answer to (a) is \textit{not} $\binom{5}{1} \cdot \binom{19}{6}$.
 
-\hide{An incorrect argument would be ``there are $\binom{5}{1}$ ways to choose a statistics course and then $\binom{19}{6}$ choices for the remaining 6 courses." This is incorrect because it's possible to take more than one statistics course, and these possibilities would be counted twice. The true answer is much less than $\binom{5}{1} \cdot \binom{19}{6}$.}
+% \hide{An incorrect argument would be ``there are $\binom{5}{1}$ ways to choose a statistics course and then $\binom{19}{6}$ choices for the remaining 6 courses." This is incorrect because it's possible to take more than one statistics course, and these possibilities would be counted twice. The true answer is much less than $\binom{5}{1} \cdot \binom{19}{6}$.}
 
 6. (*) How many ways are there to choose 5 numbers from the set $\{2000, 2001, \dots, 2017\}$ such that no two
 numbers are consecutive? Hint: Bose-Einstein
