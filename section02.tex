@@ -202,36 +202,6 @@ $$P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^\compl
     }
 \end{enumerate}
 
-\section{Monty Hall and More Conditional Probability}
 
-4. (William Chen and Sebastian Chiu, 2013) There are three doors, behind one of which there is a car and behind the other two of which there are goats. You want the car (hopefully). Initially, from your perspective, all possibilities are equally likely for where the car is. You choose a door, which we'll say is Door 1. Monty Hall opens a door with a goat in it, offers you the option of switching. In class, in the case that Monty Hall knows where the car is and would never reveal the car, the probability that the strategy of always switching succeeds is 2/3. Find the probability that the strategy of always switching succeeds...:
-
-\begin{enumerate}[(a)]
-    \item  If Monty Hall does not know what lies behind the doors and opens Door 2 at random that happens not to reveal the car.
-    
-    \hide{We can let $C_i$ be the event that the car is behind Door $i$, and $O_i$ be the event that Monty opens Door $i$ and there is no car in it. Note that $$P(O_2)=P(\text{No car behind Door 2})P(\text{Monty Hall chooses Door 2 over Door 3}) = (2/3)(1/2) = 1/3.$$ By Bayes' Rule, we have that $P(C_1|O_2) = \frac{P(O_2|C_1)P(C_1)}{P(O_2)}$. Thus $P(C_1|O_2) = \frac{(1/2)(1/3)}{(1/3)} = 1/2.$ The probability that the strategy of always switching succeeds is simply the complement of this: it is also 1/2.
-    
-    See that this result intuitively makes sense. If Monty Hall actually knows nothing about what is behind each of the doors and happens to reveal a goat by picking Door 2, then the fact that he picked Door 2 gives you no additional information about what is behind Door 3, the door that you would switch to if you were to switch. Therefore, the car is equally likely to be behind Door 1 and Door 3.}
-    
-    \item If Monty Hall always reveals a goat (he knows where the car is), and if he has a choice, he always chooses the leftmost goat, which may depend on the player's initial choice. In this case specifically, he has chosen to open Door 2 knowing that you chose Door 1.
-    
-    \hide{Here, we have that $P(O_2) = P(\text{No car behind Door 2}) = 2/3$. Thus it follows that
-    \[P(C_1|O_2) = \frac{P(O_2|C_1)P(C_1)}{P(O_2)} = \frac{1(1/3)}{2/3} = 1/2.\]}
-    
-\end{enumerate}
-
-\section{Simpson's Paradox}
-
-Statement of Paradox: 
-
-\hide{Simpson's Paradox says that X can be more successful than Y when compared within every group (Surgery Types, etc.), but still Y can be more successful than X when compared in the aggregate. This result is caused by a lurking variable, the groups, who 1) have a large impact on the success rate and 2) whose relative sizes are very different between X and Y.\\
-
-In statistical language, you can have that $$P(A|B, C) < P(A|B^\complement, C) \text{ and } P(A|B, C^\complement) < P(A|B^\complement, C^\complement) \text{ but }P(A|B) > P(A|B^\complement)$$
-where A is success, B is one of the things that you are comparing (e.g. Doctors), and C is one of the groups (e.g. Surgery Types).
-}
-
-5. Suppose statistics exams at MIT and Harvard are the same difficulty. On recent exams, Sarah got a higher percentage score on both the multiple-choice and short answer sections of her MIT exam than Emily did on the corresponding sections of her Stat 110 midterm. Knowing this, did Sarah necessarily do better than Emily on the exam overall? Why or why not?
-
-\hide{No. This is Simpson's Paradox. Imagine that Sarah got a 9/10 and 10/90 on the multiple-choice and short-answer sections, respectively, and Emily's scores were 80/90 and 1/10, respectively. Then Sarah did better in both sections, but because Sarah's test was weighted a lot more toward the harder short-answer section, she did worse overall.}
 
 \end{document}
