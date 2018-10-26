@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \def\sectionnumber{5}
-\def\sectiontitle{Poisson and Continuous Random Variables}
+\def\sectiontitle{Continuous Random Variables}
 
 \usepackage{common}
 
@@ -12,23 +12,23 @@
 
 \header
 
-\section{Poisson Approximation}
-The law of rare events states that if you have $n$ possible events $A_1$,...,$A_n$ that are independent (or weakly dependent) with $P(A_i) = p_i$, then if $n$ is large and the $p_i$ are small, the number of events that occurs (call it $X$) follows approximately a Poisson distribution, where the rate parameter is equal to $\sum_{i=1}^n p_i$. Why is this the rate parameter?
+% \section{Poisson Approximation}
+% The law of rare events states that if you have $n$ possible events $A_1$,...,$A_n$ that are independent (or weakly dependent) with $P(A_i) = p_i$, then if $n$ is large and the $p_i$ are small, the number of events that occurs (call it $X$) follows approximately a Poisson distribution, where the rate parameter is equal to $\sum_{i=1}^n p_i$. Why is this the rate parameter?
 
-\hide{The rate parameter of a Poisson distribution is equal to its mean, so the natural choice of parameter for $X$ would be $E(X)$. To calculate $E(X)$, create an indicator $I_i$ for each event $A_i$. Then $X = \sum_{i=1}^n I_i$ so by linearity and the fundamental bridge, $E(X) = \sum_{i=1}^n p_i$.}
+% \hide{The rate parameter of a Poisson distribution is equal to its mean, so the natural choice of parameter for $X$ would be $E(X)$. To calculate $E(X)$, create an indicator $I_i$ for each event $A_i$. Then $X = \sum_{i=1}^n I_i$ so by linearity and the fundamental bridge, $E(X) = \sum_{i=1}^n p_i$.}
 
-1. (a) Your computer randomly selects a 1000-element subset of $\{1,2,\dots,10^9\}$. What is the probability that exactly ten of these numbers are no more than $10^7$? 
+% 1. (a) Your computer randomly selects a 1000-element subset of $\{1,2,\dots,10^9\}$. What is the probability that exactly ten of these numbers are no more than $10^7$? 
 
-\hide{Let $X$ be the number of numbers no more than $10^7$. Then $X \sim \HGeom(10^7, 10^9-10^7, 1000)$. By the PMF of the Hypergeometric, we have 
-\[
-P(X=10) = \boxed{\frac{\binom{10^7}{10} \binom{10^9-10^7}{990}}{\binom{10^9}{1000}}}
-\]}
+% \hide{Let $X$ be the number of numbers no more than $10^7$. Then $X \sim \HGeom(10^7, 10^9-10^7, 1000)$. By the PMF of the Hypergeometric, we have 
+% \[
+% P(X=10) = \boxed{\frac{\binom{10^7}{10} \binom{10^9-10^7}{990}}{\binom{10^9}{1000}}}
+% \]}
 
-(b) Give an approximation to your answer above in terms of $e$.
+% (b) Give an approximation to your answer above in terms of $e$.
 
-\hide{Taking the form above, we have events $A_1, A_2, \dots, A_{1000}$, and each of them is ``no more than $10^7$" with probability $\frac{10^7}{10^9} = \frac{1}{100}$. Thus our mean parameter is $1000\frac{1}{100} = 10$. Then, using the Poisson PMF, the desired probability is $\boxed{\frac{e^{-10}10^{10}}{10!}} \approx 0.125$.}
+% \hide{Taking the form above, we have events $A_1, A_2, \dots, A_{1000}$, and each of them is ``no more than $10^7$" with probability $\frac{10^7}{10^9} = \frac{1}{100}$. Thus our mean parameter is $1000\frac{1}{100} = 10$. Then, using the Poisson PMF, the desired probability is $\boxed{\frac{e^{-10}10^{10}}{10!}} \approx 0.125$.}
 
-\section{Continuous Random Variables}
+\section{Intro to Continuous Random Variables and Uniforms}
 
 \begin{description}
 
@@ -55,57 +55,56 @@ The Universality of the Uniform has two parts. Both require that $F$ is a strict
 
 \end{description}
 
-2. (BH 5.13) A stick of length 1 is broken at a uniformly random point, yielding two pieces. Let $X$ and $Y$ be the lengths of the shorter and longer pieces, respectively, and let $R = X/Y$ be the ratio of the lengths $X$ and $Y$.
-
-\begin{enumerate}[(a)]
-    \item Find the CDF and PDF of $R$.
-    
-    \hide{Let $U \sim \text{Unif}(0, 1)$ be the breakpoint, so $X = \min(U, 1-U)$. For $r \in (0,1)$,
-    \[P(R < r) = P(X < r(1-X)) = P(X< \frac{r}{1+r}).\]
-    What's the CDF of X? It is
-    \[P(X<x) = 1-P(X > x) = 1- P(U>x, 1-U > x) = 1 - P(x < U < 1-x) = 2x,\]
-    for $0 < x < \frac{1}{2}$, and the CDF is 0 for $x < 0$ and 1 for $x > \frac{1}{2}$. So $X \sim \text{Unif}(0, \frac{1}{2}),$ and the CDF of $R$ is
-    \[P(R < r) = P(X < \frac{r}{1+r}) = \frac{2r}{1+r}\]
-    for $r \in (0, 1)$, and it is 0 for $r < 0$ and 1 for $r > 1$.
-    The PDF of $R$ is 0 if $r$ is not in $(0, 1)$, and for $r \in (0, 1)$ it is
-    \[f(r) = \frac{2(1+r) - 2r}{(1+r)^2} = \frac{2}{(1+r)^2}\]
-    }
-    
-    \item Find the expected value of $R$ (if it exists).
-    
-    \hide{We have
-    \[E(R) = \int_0^1 \frac{2r}{(1+r)^2} dr = 2 \int_1^2 \frac{(t-1)}{t^2} dt = 2\int_1^2 \frac{1}{t}dt - 2\int_1^2 \frac{1}{t^2} dt = 2 \ln 2 - 1.\]
-    }
-    
-    \item Find the expected value of $1/R$ (if it exists).
-    
-    \hide{ The expected value does not exist, since $\int_0^1 \frac{1}{r(1+r)^2}$ diverges. To show this, note that $\int_0^1 \frac{1}{r} dr$ diverges and $\frac{1}{r(1+r)^2} > \frac{1}{4r}$ for $0<r<1$.
-    }
-\end{enumerate}
-
-% Note: BH 5.5 is in the hwk
-
-% 2. (BH 5.5) A circle with a random radius $R \sim \Unif(0,1)$ is generated. Let $A$ be its area.
+% 2. (BH 5.13) A stick of length 1 is broken at a uniformly random point, yielding two pieces. Let $X$ and $Y$ be the lengths of the shorter and longer pieces, respectively, and let $R = X/Y$ be the ratio of the lengths $X$ and $Y$.
 
 % \begin{enumerate}[(a)]
-%     \item Find the mean and variance of $A$, without first finding the CDF or PDF of $A$.
-
-%     \hide{
-%     The mean of $A$ is equal to the mean of $\pi R^2$, so by LOTUS $$E(A) = \int_{0}^{1} \pi x^2 \cdot 1 dx = \frac{\pi}{3}.$$
+%     \item Find the CDF and PDF of $R$.
     
-%     To find the variance, we need to find $E(A^2)$, which is given by $$E(A^2) = \int_{0}^{1} \pi^2 (x^2)^2 \cdot 1 dx = \frac{\pi^2}{5}.$$
-    
-%     Plugging into the formula for variance, we find that $$Var(A) = E(A^2)-(E(A))^2 = \frac{\pi^2}{5} - \left(\frac{\pi}{3}\right)^2 = \frac{4\pi^2}{45}.$$
+%     \hide{Let $U \sim \text{Unif}(0, 1)$ be the breakpoint, so $X = \min(U, 1-U)$. For $r \in (0,1)$,
+%     \[P(R < r) = P(X < r(1-X)) = P(X< \frac{r}{1+r}).\]
+%     What's the CDF of X? It is
+%     \[P(X<x) = 1-P(X > x) = 1- P(U>x, 1-U > x) = 1 - P(x < U < 1-x) = 2x,\]
+%     for $0 < x < \frac{1}{2}$, and the CDF is 0 for $x < 0$ and 1 for $x > \frac{1}{2}$. So $X \sim \text{Unif}(0, \frac{1}{2}),$ and the CDF of $R$ is
+%     \[P(R < r) = P(X < \frac{r}{1+r}) = \frac{2r}{1+r}\]
+%     for $r \in (0, 1)$, and it is 0 for $r < 0$ and 1 for $r > 1$.
+%     The PDF of $R$ is 0 if $r$ is not in $(0, 1)$, and for $r \in (0, 1)$ it is
+%     \[f(r) = \frac{2(1+r) - 2r}{(1+r)^2} = \frac{2}{(1+r)^2}\]
 %     }
     
-%     \item Find the CDF and PDF of $A$. 
+%     \item Find the expected value of $R$ (if it exists).
     
-%     \hide{
-%     By the first part of the Universality of the Uniform, we know that if $A = F_A^{-1}(R)$, then $A \sim F$. Indeed, $A = \pi R^2$, so we know that the CDF of $A$ is $$F_A(x) = \sqrt{\frac{x}{\pi}}$$ by finding the inverse of $F^{-1}$. $F(x)$ is 0 when $x < 0$ and 1 when $x > \pi$. Taking the derivative of the CDF, we find that the PDF is $$f(x) = \frac{1}{2\sqrt{\pi x}}$$ when $x$ is in $(0, \pi]$ and 0 otherwise. 
+%     \hide{We have
+%     \[E(R) = \int_0^1 \frac{2r}{(1+r)^2} dr = 2 \int_1^2 \frac{(t-1)}{t^2} dt = 2\int_1^2 \frac{1}{t}dt - 2\int_1^2 \frac{1}{t^2} dt = 2 \ln 2 - 1.\]
 %     }
-%     \end{enumerate}
+    
+%     \item Find the expected value of $1/R$ (if it exists).
+    
+%     \hide{ The expected value does not exist, since $\int_0^1 \frac{1}{r(1+r)^2}$ diverges. To show this, note that $\int_0^1 \frac{1}{r} dr$ diverges and $\frac{1}{r(1+r)^2} > \frac{1}{4r}$ for $0<r<1$.
+%     }
+% \end{enumerate}
 
-3. The logistic distribution has CDF $F(x) = \frac{1}{1+e^{-x}}$. Find a function $g$ so that $g(U)$ has a logistic distribution where $U \sim \Unif(a,b)$. \\
+2. (BH 5.5) A circle with a random radius $R \sim \Unif(0,1)$ is generated. Let $A$ be its area.
+
+\begin{enumerate}[(a)]
+    \item Find the mean and variance of $A$, without first finding the CDF or PDF of $A$.
+
+    \hide{
+    The mean of $A$ is equal to the mean of $\pi R^2$, so by LOTUS $$E(A) = \int_{0}^{1} \pi x^2 \cdot 1 dx = \frac{\pi}{3}.$$
+    
+    To find the variance, we need to find $E(A^2)$, which is given by $$E(A^2) = \int_{0}^{1} \pi^2 (x^2)^2 \cdot 1 dx = \frac{\pi^2}{5}.$$
+    
+    Plugging into the formula for variance, we find that $$Var(A) = E(A^2)-(E(A))^2 = \frac{\pi^2}{5} - \left(\frac{\pi}{3}\right)^2 = \frac{4\pi^2}{45}.$$
+    }
+    
+    \item Find the CDF and PDF of $A$. 
+    
+    \hide{
+    By the first part of the Universality of the Uniform, we know that if $A = F_A^{-1}(R)$, then $A \sim F$. Indeed, $A = \pi R^2$, so we know that the CDF of $A$ is $$F_A(x) = \sqrt{\frac{x}{\pi}}$$ by finding the inverse of $F^{-1}$. $F(x)$ is 0 when $x < 0$ and 1 when $x > \pi$. Taking the derivative of the CDF, we find that the PDF is $$f(x) = \frac{1}{2\sqrt{\pi x}}$$ when $x$ is in $(0, \pi]$ and 0 otherwise. 
+    }
+    \end{enumerate}
+
+3. The logistic distribution has CDF $F(x) = \frac{1}{1+e^{-x}}$. Find a function $g$ so that $g(U)$ has a logistic distribution where $U \sim \Unif(a,b)$. 
+
 \hide{ First, we let the CDF of $U$ be $h(x) = \frac{x-a}{b-a}$. Then $h(U) \sim \Unif(0,1)$ by UoU, so by UoU again, $F^{-1}(h(U))$ has a logistic distribution (where $F$ is the CDF of the logistic), i.e. let $g = F^{-1} \circ h$. To find $F^{-1}$, note that it must satisfy $x = \frac{1}{1+e^{-F^{-1}(x)}}$. Solving gives $F^{-1}(x) = \log(\frac{x}{1-x})$, so we take 
 $g(x) = F^{-1}(h(x)) = \boxed{\log\left(\frac{x-a}{b-x}\right)}$.}
 
@@ -125,7 +124,7 @@ A Normal distribution with mean $\mu$ and variance $\sigma^2$ is denoted $\N(\mu
 
 \hide{ Let $X = (Z+c)^2$. We start with the CDF of x, given by 
 \begin{align*}
-    F(X) & = P((Z+c)^2 \leq x) \\
+    F(x) & = P((Z+c)^2 \leq x) \\
     & = P(-\sqrt{x} \leq Z+c \leq \sqrt{x}) \\
     & = P(-\sqrt{x}-c \leq Z \leq \sqrt{x}-c) \\
     & = \Phi(\sqrt{x}-c) - \Phi(-\sqrt{x}-c) \\
