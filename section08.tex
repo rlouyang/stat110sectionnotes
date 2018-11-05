@@ -12,6 +12,28 @@
 
 \header
 
+\section{Multivariate Normal}
+
+\begin{description}
+
+\item[Definition] A random vector is Multivariate Normal (MVN) if every linear combination of the elements is Normal.
+
+\item[Uncorrelatedness and independence] Zero correlation between two elements of a MVN random vector implies that those two elements are independent. Keep in mind that this is \textit{only} true for Multivariate Normals.
+
+\end{description}
+
+4. Let $Z_1$ and $Z_2$ be independently standard normal. Prove that $Z_1+Z_2$ and $Z_1-Z_2$ are independent.
+
+\hide{Notice that the vector $(Z_1+Z_2,Z_1-Z_2)$ is bivariate normal since any linear combination of the components takes the form $aZ_1+bZ_2$ which is normal (since sum of independent normals is normal). So it suffices to show that they are uncorrelated. But 
+$$
+    \cov(Z_1+Z_2,Z_1-Z_2) = \var(Z_1) - \cov(Z_1,Z_2) + \cov(Z_2,Z_1) - \var(Z_2) = 0
+$$}
+
+5. Let $Z$ be a standard normal random variable. Martha constructs a new standard normal random variable $W$ by flipping a fair coin and multiplying $Z$ by 1 if the coin lands heads and by -1 otherwise. Prove that $(W,Z)$ is NOT bivariate normal.
+
+\hide{Since Normals are continuous, the probability that any Normal is 0 is 0. But $Z + W$ is $2Z$ half the time and $0$ otherwise, so there's a non-zero probability that $Z + W = 0$. Thus $Z + W$ isn't Normal, which means that $(W, Z)$ isn't MVN since all linear combinations of a MVN must be Normal.}
+
+
 \section{Beta and Gamma Distributions}
 
 \begin{description}

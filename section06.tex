@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \def\sectionnumber{6}
-\def\sectiontitle{Moments; Joint, Conditional, and Marginal Distributions}
+\def\sectiontitle{Exponential Distribution and Moments}
 
 \usepackage{common}
 
@@ -11,6 +11,50 @@
 \begin{document} 
 
 \header
+
+\section{Exponential Distribution}
+\begin{description}
+
+\item[Memoryless property (intuitive explanation and mathematical definition): ]
+
+If $X$ has the memoryless property, then $$P(X \geq s + t| X \geq s) = P(X \geq t).$$ In other words, if you've already waited for $s$ units of time, the probability of having to wait an additional $t$ units of time is the same as the initial (i.e., back when you started waiting) probability that you had to wait $t$ units of time. The Exponential distribution is the only continuous distribution with this property. However, the Geometric distribution also has this property (try proving this as an exercise).
+
+\item[PDF:] The PDF of an $\Expo(\lambda)$ r.v.~is $f(x) = \lambda e^{-\lambda x}$.
+
+\item[CDF:] The CDF of an $\Expo(\lambda)$ r.v.~is $F(x) = 1 - e^{-\lambda x}$.
+
+\end{description}
+
+1. Let $X_1 \sim \Expo(\lambda_1)$ and $X_2 \sim \Expo(\lambda_2)$ be independent. 
+
+(a) What is the PDF of $X = \max(X_1,X_2)$? Does $X$ have an exponential distribution? 
+
+\hide{Note that $X \leq x$ implies ($X_1 \leq x$ and $X_2 \leq x$) and vice versa. Thus, $$P(X \leq x) = P(X_1 \leq x, X_2 \leq x) = P(X_1 \leq x)P(X_2 \leq x) = (1 - e^{-\lambda_1x})(1 - e^{-\lambda_2x}).$$ Taking the derivative of this with respect to $x$ gives $$\lambda_1 e^{-\lambda_1x} + \lambda_2 e^{-\lambda_2x} - (\lambda_1 + \lambda_2)e^{-(\lambda_1 + \lambda_2)x}.$$ Since this doesn't have the form of the Exponential PDF, $X$ isn't Expo.
+  
+}
+
+(b) Now suppose $\lambda_1 = \lambda_2 = \lambda$. What is $E(X)$? Even better, what is $E(X)$ if $\lambda_1 \neq \lambda_2$? Hint: you don't need to do a messy integral.
+
+\hide{Note that $$E(\min(X_1, X_2)) + E(\max(X_1, X_2)) = E(X_1) + E(X_2) = \frac{1}{\lambda_1} + \frac{1}{\lambda_2}.$$ We already know that $\min(X_1, X_2) \sim \Expo(\lambda_1 + \lambda_2)$, so $$E(\min(X_1, X_2)) = \frac{1}{\lambda_1 + \lambda_2}.$$ Solving for $E(\max(X_1, X_2))$ gives $$E(\max(X_1, X_2)) = \frac{1}{\lambda_1} + \frac{1}{\lambda_2} - \frac{1}{\lambda_1 + \lambda_2}.$$ 
+
+If $\lambda_1 = \lambda_2 = \lambda$, we have
+
+$$\frac{1}{\lambda} + \frac{1}{\lambda} - \frac{1}{2\lambda}=\frac{3}{2\lambda}$$
+
+% If $\lambda_1 = \lambda_2 = \lambda$, then $X$ is just the minimum of two Expos plus the time needed for the remaining Expo (without loss of generality, assume this is $X_2$). So let $T_1 \sim \min(X_1, X_2) \sim \Expo(2\lambda)$, and let $T_2 \sim X_2$ by the memoryless property (since if $X_2$ hasn't finished by $T_1$, then the memoryless property says that it's as if $X_2$ had never started). So $$E(X) = E(T_1) + E(T_2) = \frac{1}{2\lambda} + \frac{1}{\lambda} = \frac{3}{2\lambda},$$ which is consistent with the above result.
+    
+}
+
+
+2. Science Center B is under construction, so the only way to get to Stat 110 lecture is through a revolving door that gets stuck every time someone tries to go through it. Suppose the door only fits one person at a time, and the time it takes the person to get through the door (independent for different people) is distributed exponentially with rate $\frac{1}{2}$ inverse seconds. Crystal enters the door on Tuesday at 2:36:56 pm, and Alan arrives at 2:36:58 pm. Nobody arrives between them. What is the probability that Alan gets in the door on Harvard time (i.e. before 2:37:00 pm)?
+
+
+\hide{We condition on the event $C$ that Crystal is still in the door when Alan arrives (which is equivalent to the event $X > 2$). Let $X \sim \Expo(\frac{1}{2})$ be the time for Crystal to go through the door. Then $P(C) = P(X>2) = 1-P(X \leq 2) = e^{-1}$ by the Expo CDF. Let $Y$ be the time for Alan to get in the door. Then 
+    \begin{align*}
+        P(Y \leq 2) = P(Y \leq 2|C)P(C) + P(Y \leq 2|C^C)P(C^C)
+    \end{align*}
+Note that $P(Y \leq 2|C^C) = 1$ since given $C^C$, $Y=0$. Conversely, we have $P(Y \leq 2|C) = P(X \leq 4|C) = P(X \leq 2) = 1-e^{-1}$ by memorylessness. So the answer is $(1-e^{-1})e^{-1} + (1-e^{-1}) = \boxed{1-e^{-2}}$. 
+} 
 
 \section{Moments and Moment Generating Functions}
 
@@ -24,13 +68,13 @@
 \item[Sum of independent r.v.s] The MGF of $X + Y$ with $X$, $Y$ independent is $M_X(t)M_Y(t)$.
 \end{description}
 
-1. Let $X \sim N(\mu,\sigma^2)$. What is the MGF of $X$ given that the MGF of a standard Normal is given by $M(t) = e^{\frac{t^2}{2}}$ for all $t$? 
+3. Let $X \sim N(\mu,\sigma^2)$. What is the MGF of $X$ given that the MGF of a standard Normal is given by $M(t) = e^{\frac{t^2}{2}}$ for all $t$? 
 
 \hide{Let $M_X(t)$ be the MGF of $X$. Then by definition, $M_X(t) = E(e^{Xt})$. But if $Z \sim N(0,1)$, $X$ has the same distribution as $\mu + \sigma Z$, so we have $$
 E(e^{Xt}) = E(e^{(\mu+\sigma Z)t}) = E(e^{\mu t}e^{\sigma Zt}) = e^{\mu t}M(\sigma t) = e^{\mu t + \frac{1}{2}\sigma^2t^2}
 $$}
 
-2. (a) What is the MGF of $U \sim \Unif(a,b)$? For what values of $t$ does it exist?  
+4. (a) What is the MGF of $U \sim \Unif(a,b)$? For what values of $t$ does it exist?  
 
 \hide{Let $M(t)$ be the desired MGF. Then by definition, $M(t) = E(e^{tU}) = \int_a^b e^{tu} \frac{1}{b-a} du$ by LOTUS. This evaluates to $\boxed{\frac{e^{bt}-e^{at}}{t(b-a)}}$ when $t \neq 0$. When $t = 0$, the integral evaluates to simply $1$. Since the expression we obtain is finite for all $t$, the MGF exists everywhere.}
 
@@ -41,83 +85,6 @@ $$}
 (c) Now suppose $a=0$ and $b=1$. Find the moments $E(U^n)$ for all positive integers $n$. 
 
 \hide{The MGF simplifies to $M(t) = \frac{e^t-1}{t}$ which has series expansion $\sum_{n=0}^{\infty} \frac{t^n}{(n+1)!}$. The $n$-th moment $E(U^n)$ is the coefficient in front of $\frac{t^n}{n!}$, which here is just $\boxed{\frac{1}{n+1}}$. }
-
-
-\section{Joint Distributions}
-
-\begin{description}
-
-\item[Joint PMF] $p_{X, Y}(x, y) = P(X=x, Y=y)$
-
-\item[Marginal PMF] $p_{X}(x) = \sum_y P(X=x, Y=y)$.
-
-\item[Conditional PMF] $P(X=x|Y=y)$
-
-\item[Continuous analogues] Replace all the PMFs with PDFs, and replace all the sums with integrals.
-
-
-\end{description}
-
-3. (BH 7.9) Let $X$ and $Y$ be i.i.d $\Geom(p)$, and $N = X+Y$. 
-(a) Find the joint PMF of $X$, $Y$, and $N$. 
-
-\hide{We want to compute $P(X=x,Y=y,N=n)$ for all nonnegative integers $x$, $y$, $n$. If $n \neq x+y$, then this probability is clearly zero, so the PMF is only nonzero when $n = x+y$. But then $N=n$ is redundant information, so $P(X=x,Y=y,N=n) = P(X=x,Y=y) = P(X=x)P(Y=y) = p^2(1-p)^{x+y} = \boxed{p^2(1-p)^{n}}$ where we used independence for the second equality.}
-
-(b) Find the joint PMF of $X$ and $N$. 
-
-\hide{$P(X=x,N=n) = P(X=x,Y=n-x) = P(X=x)P(Y=n-x) = \boxed{p^2(1-p)^n}$ for all nonnegative integers $x$ and $n$ with $n \geq x$. Note that this is the same as above...since you only need any two of $X$, $Y$, and $N$ to get all the information in the problem.}
-
-(c) Find the conditional PMF of $X$ given $N=n$, and give a simple description of what the result says. 
-
-\hide{$P(X=x|N=n) = \frac{P(X=x,N=n)}{P(N=n)}$ by the definition of conditional probability. $N \sim \NBin(2, p)$, so by the PMF of the negative binomial we have $P(N=n) = (n+1)p^2(1-p)^n$. Plugging our result from part (b) for the numerator gives $\boxed{\frac{1}{n+1}}$ for all $x \in \{0,1,\dots,n\}$. This means that it is equally likely for $X$ to be any of these values.}
-
-4. Consider choosing a random point in the unit sphere:
-$$\{(x, y, z) : x^2 + y^2 + z^2 \leq 1\}.$$ We can represent this ``random choice" as three random variables, each representing a coordinate: $(X, Y, Z)$.
-
-(a) Find the joint PDF of $X, Y, Z$.
-
-\hide{Since the total volume of the sphere is $\frac{4\pi}{3}$, we must have the PDF as $f_{X,Y,Z}(x, y, z) = \frac{3}{4\pi}$ due to the uniform nature of the distribution.}
-
-(b) Find the marginal distribution of $X$.
-
-\hide{To find the marginal distribution, we must integrate out the other random variables $Y, Z$,
-resulting in:
-
-$$\int_{-\sqrt{1 - x^2}}^{\sqrt{1 - x^2}} \int_{-\sqrt{1 - x^2 - z^2}}^{\sqrt{1 - x^2 - z^2}} \frac{3}{4\pi} dydz$$
-which is best left as an integral as it is difficult to compute analytically.
-}
-
-(c) Find the probability that $(X, Y, Z)$ lies in a smaller sphere of radius 0.5.
-
-\hide{To solve this problem, we note that because the density is uniform, the question of finding
-the probability of locating a point in a given region is simply the volume of that region divided by the
-total volume, which is $\frac{4\pi}{3}$. Thus, we have:
-$$P((X, Y, Z) \in B_{0.5}) = \frac{\frac{4\pi(0.5)^3}{3}}{\frac{4\pi}{3}} = \frac{1}{8}.$$
-}
-
-\section{Covariance and Correlation}
-
-\begin{description}
-
-\item[Covariance] $\cov(X, Y) = E[(X - EX)(Y - EY)] = E(XY) - E(X)E(Y)$. The covariance of independent r.v.s is 0.
-
-\item[Key properties of covariance]
-
-\item[Correlation] $\corr(X, Y) = \frac{\cov(X, Y)}{\SD(X)\SD(Y)}$
-
-\end{description}
-
-\section{Multinomial}
-
-\begin{description}
-
-\item[Story] Each of $n$ objects is placed randomly and independently into $k$ categories. The probability of being placed into category $i$ is $p_i$. Let $\mathbf{p} = (p_1, p_2, \dots, p_k)$. Then the distribution of the number of objects in each category is $\Mult_k(n, \mathbf{p})$. This is a generalized version of the Binomial (the first element of a $\Mult_2(n, \mathbf{p})$ is distributed as a $\Bin(n, p_1)$).
-
-\item[Joint PMF] $$P(X_1 = n_1, X_2 = n_2, \dots, X_k = n_k) = \frac{n!}{n_1!n_2!\cdots n_k!}p_1^{n_1}p_2^{n_2}\cdots p_k^{n_k}$$ You don't really have to remember this; this is the generalization of the Binomial PMF.
-
-\item[Lumping] If you lump more than one of the $k$ categories together, the result is still Multinomial. For example, lumping categories 1 and 2 together results in a Multinomial with new probability $p_1 + p_2$.
-
-\end{description}
 
 \end{document}
 
