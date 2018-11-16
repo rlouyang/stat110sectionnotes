@@ -12,26 +12,26 @@
 
 \header
 
-\section{Multivariate Normal}
+% \section{Multivariate Normal}
 
-\begin{description}
+% \begin{description}
 
-\item[Definition] A random vector is Multivariate Normal (MVN) if every linear combination of the elements is Normal.
+% \item[Definition] A random vector is Multivariate Normal (MVN) if every linear combination of the elements is Normal.
 
-\item[Uncorrelatedness and independence] Zero correlation between two elements of a MVN random vector implies that those two elements are independent. Keep in mind that this is \textit{only} true for Multivariate Normals.
+% \item[Uncorrelatedness and independence] Zero correlation between two elements of a MVN random vector implies that those two elements are independent. Keep in mind that this is \textit{only} true for Multivariate Normals.
 
-\end{description}
+% \end{description}
 
-4. Let $Z_1$ and $Z_2$ be independently standard normal. Prove that $Z_1+Z_2$ and $Z_1-Z_2$ are independent.
+% 4. Let $Z_1$ and $Z_2$ be independently standard normal. Prove that $Z_1+Z_2$ and $Z_1-Z_2$ are independent.
 
-\hide{Notice that the vector $(Z_1+Z_2,Z_1-Z_2)$ is bivariate normal since any linear combination of the components takes the form $aZ_1+bZ_2$ which is normal (since sum of independent normals is normal). So it suffices to show that they are uncorrelated. But 
-$$
-    \cov(Z_1+Z_2,Z_1-Z_2) = \var(Z_1) - \cov(Z_1,Z_2) + \cov(Z_2,Z_1) - \var(Z_2) = 0
-$$}
+% \hide{Notice that the vector $(Z_1+Z_2,Z_1-Z_2)$ is bivariate normal since any linear combination of the components takes the form $aZ_1+bZ_2$ which is normal (since sum of independent normals is normal). So it suffices to show that they are uncorrelated. But 
+% $$
+%     \cov(Z_1+Z_2,Z_1-Z_2) = \var(Z_1) - \cov(Z_1,Z_2) + \cov(Z_2,Z_1) - \var(Z_2) = 0
+% $$}
 
-5. Let $Z$ be a standard normal random variable. Martha constructs a new standard normal random variable $W$ by flipping a fair coin and multiplying $Z$ by 1 if the coin lands heads and by -1 otherwise. Prove that $(W,Z)$ is NOT bivariate normal.
+% 5. Let $Z$ be a standard normal random variable. Martha constructs a new standard normal random variable $W$ by flipping a fair coin and multiplying $Z$ by 1 if the coin lands heads and by -1 otherwise. Prove that $(W,Z)$ is NOT bivariate normal.
 
-\hide{Since Normals are continuous, the probability that any Normal is 0 is 0. But $Z + W$ is $2Z$ half the time and $0$ otherwise, so there's a non-zero probability that $Z + W = 0$. Thus $Z + W$ isn't Normal, which means that $(W, Z)$ isn't MVN since all linear combinations of a MVN must be Normal.}
+% \hide{Since Normals are continuous, the probability that any Normal is 0 is 0. But $Z + W$ is $2Z$ half the time and $0$ otherwise, so there's a non-zero probability that $Z + W = 0$. Thus $Z + W$ isn't Normal, which means that $(W, Z)$ isn't MVN since all linear combinations of a MVN must be Normal.}
 
 
 \section{Beta and Gamma Distributions}
@@ -40,7 +40,15 @@ $$}
     \item[Beta PDF] For $a, b > 0$, the PDF of a $\Beta(a, b)$ random variable is $$\frac{1}{B(a, b)}x^{a - 1}(1 - x)^{b - 1}$$
     where $0 < x < 1$ and $B(a, b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a + b)}$ is the beta function.
     
-    \item[Beta-Binomial conjugacy] States that the Beta distribution is a conjugate prior for the binomial distribution. A prior is a distribution we place on a random variable that reflects our belief about that random variable before any data is observed. Beta-binomial conjugacy then states that if we place a Beta prior on some random variable $p$, then if we observe data $X$ such that $X|p \sim \Bin(n,p)$ for some $n$, $p|X$ still follows a Beta distribution. 
+    \item[Beta-Binomial conjugacy] States that the Beta distribution is a conjugate prior for the Binomial distribution. A prior is a distribution we place on a random variable that reflects our belief about that random variable before any data is observed. Beta-Binomial conjugacy then states that if we place a Beta prior on some random variable $p$, then if we observe data $X$ such that $X|p \sim \Bin(n,p)$ for some $n$, $p|X$ still follows a Beta distribution. 
+    
+    Specifically,
+    
+    $p\sim$ Beta$(a,b)$ where a is the number of prior successes and b is the number of prior failures
+    
+    $X|p \sim \Bin(n,p)$
+    
+    $p|(X=x)\sim$ Beta$(a+x,b+n-x)$ where we update with the observed successes and failures
     
     \item [Bayes' Billiards] This is a story proof that 
     $$\int_0^1\binom{n}{k}x^k(1 - x)^{n - k}dx = \frac{1}{n + 1}.$$
@@ -54,13 +62,17 @@ $$}
     \item[Bank-post office] Given independent $X \sim \Gam(a, \lambda), Y \sim \Gam(b, \lambda)$ (wait time at the bank and post office, respectively), $T \equiv X + Y \sim \Gam(a + b, \lambda)$ and $W \equiv \frac{X}{X + Y} \sim \Beta(a, b)$. Moreover, $T$ and $W$ are independent.
 \end{description}
 
+\vspace{50mm}
+
 1. Charlotte is dealing with government bureaucracy, and so needs to visit three different counters to get her passport stamped at Logan Airport. The time she spends at each counter is $\Expo(\lambda)$ (independently of the time spent at other counters). What is the distribution of the proportion of time spent at the first two counters?
+
 
 \hide{Let $X_1$, $X_2$, $X_3 \sim \Expo(\lambda)$ be the time spent at the first, second, and third counters, respectively. Then we are looking for the distribution of $Y \equiv \frac{X_1+X_2}{X_1+X_2+X_3}$. But $X_1+X_2 \sim \Gam(2,\lambda)$ by the story of the Gamma, and $X_3 \sim \Gam(1,\lambda)$, so by the Beta-Gamma story $Y \sim \boxed{\Beta(2,1)}$.} 
 % There was supposed to be a part (b) but couldn't think of one
 
 2. * Prove that the Gamma is the conjugate prior of the Poisson.
 % I have no idea how to do this. Yeah this is supposed to be a challenge problem...hopefully reading the solutions might be helpful in understanding conjugate priors
+
 
 \hide{Let's first state mathematically what we're trying to show. Let's say we have a r.v.~$X$ distributed as $\Pois(\lambda)$ where $\lambda$ is unknown. We place a prior on $\lambda \sim \Gam(a, \theta)$; we need to show that the posterior distribution of $\lambda$, i.e. $\lambda|X$ also follows a Gamma distribution. As with the beta-binomial conjugacy proof, we use (continuous) Bayes' rule, dropping proportionality constants:
 \begin{align*}
@@ -80,12 +92,14 @@ This is the form of a $\Gam(x+a,1+\theta)$ PDF (up to proportionality), as desir
     **IMPORTANT** This formula is only well-defined if the function $g$ is monotonic (otherwise $\frac{dx}{dy}$ is undefined)! If this is not the case, it's generally safer to go back to the definition of CDF.
     
     \item[Change of variables formula, general case] If $\mathbf{Y} = g(\mathbf{X})$, then $$f_\mathbf{Y}(\mathbf{y}) = f_\mathbf{X}(\mathbf{x})\left|\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right|.$$
-    All the bold letters are vectors, and $\left|\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right|$ denotes the determinant of the Jacobian. The Jacobian is the matrix where element $i, j$ is $\frac{\partial x_i}{\partial y_j}$.
+    All the bold letters are vectors, and $\left|\frac{\partial \mathbf{x}}{\partial \mathbf{y}}\right|$ denotes the absolute value of the determinant of the Jacobian. The Jacobian is the matrix where element $i, j$ is $\frac{\partial x_i}{\partial y_j}$.
     
     \item[Convolution sums and integrals] A convolution is just a sum. If $X$ and $Y$ are independent discrete r.v.'s, then the PMF of $X+Y$ is given by $P(X+Y=t) = \sum_x P(X=x)P(Y=t-x)$. If they are continuous, then if $f_X$ is the PDF of $X$ and $f_Y$ is the CDF of $Y$, the PDF of $X+Y$ (call it $f_{X+Y}$) is 
     $$f_{X+Y}(t) = \int_{-\infty}^{\infty} f_X(x)f_Y(t-x) dx
     $$
 \end{description}
+
+\vspace{20mm}
 
 3. Suppose $B \sim \Beta(a, 1)$. 
 
@@ -96,7 +110,9 @@ $$f_X(x) = f_B(b)\left|\parts{b}{x}\right| = \frac{1}{B(a, 1)}b^{a - 1}|-\exp(-x
 which is the PDF of an $\Expo(a)$ r.v.
 }
 
+
 (b) What is the distribution of $Y = B^2$?
+
 
 \hide{Let's do the same thing as above:
 $$f_Y(y) = f_B(b)\left|\parts{b}{y}\right| = \frac{1}{B(a, 1)}b^{a - 1}\left|\frac{1}{2\sqrt{y}}\right| = ay^{\frac{a - 1}{2}}\left|\frac{1}{2\sqrt{y}}\right| = \frac{a}{2}y^{\frac{a}{2} - 1},$$
@@ -143,6 +159,7 @@ We have to be careful with supports here. $f_X(x)$ is nonzero only for $x > 0$. 
     
     
 \end{description}
+
 
 6. (Adapted from Matt DiSorbo, 2016, and Jessy Hwang, 2012.) You are a potato farmer. It's been a strange season, and you know that your potatoes this year will randomly, uniformly, and independently weigh between 0 and 1 pounds. You harvest $n$ potatoes.
 
