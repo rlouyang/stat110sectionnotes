@@ -6,7 +6,7 @@
 \usepackage{common}
 
 % Set this false to hide, true to show
-\setboolean{showanswers}{true}
+\setboolean{showanswers}{false}
 
 \begin{document} 
 
@@ -51,7 +51,7 @@ For this section, let $X_1$,...,$X_n$ be i.i.d.~with $E(X_i) = \mu$, $\var(X_i) 
 
 \item[Strong LLN] $\bar{X}_n \rightarrow \mu$ (this notation refers to convergence ``almost surely" of random variables). Requires some technical assumptions to hold, e.g. the 4th moments are bounded.
 
-\item[Central Limit Theorem] The distribution of $\frac{\bar{X}_n-\mu}{\sigma/\sqrt{n}}$ converges to the $\N(0,1)$ distribution. Note that $E(\bar{X}_n) = \mu$, $\var(\bar{X}_n) = \frac{\sigma}{\sqrt{n}}$. 
+\item[Central Limit Theorem] The distribution of $\frac{\bar{X}_n-\mu}{\sigma/\sqrt{n}}$ converges to the $\N(0,1)$ distribution. Note that $E(\bar{X}_n) = \mu$, $\var(\bar{X}_n) = \frac{\sigma^2}{n}$. 
 
 \end{description}
 
@@ -92,7 +92,7 @@ for all $n > 0$. By induction, $E(X_n) = (\frac{11}{9})^n$ which approaches infi
 
 \item[Definition] A sequence of r.v.'s $X_1$, $X_2$,... is said to be a (discrete-time) Markov Chain if $P(X_j = i|X_1=i_1,X_2=i_2,...,X_{j-1}=i_{j-1}) = P(X_j=i|X_{j-1}=i_{j-1})$ for all $i_1$,...,$i_{j-1}$ in the support of the $X_i$ (called the state space, which we denote $\{1,...,n\}$) and all $j > 1$. In other words, the distribution of states at time $t$ depends only on the state at time $t-1$. 
 
-\item[Transition matrix] For a Markov chain on $n$ states, the transition matrix (usually denoted $\mathbf{Q}$) is an $n$-by-$n$ matrix where $q_{i,j}$ (meaning the entry in the $i$-th row and $j$-th column) is $P(X_{k+1}=j|X_k=i)$ (this doesn't depend on $k$ by definition). The matrix $\mathbf{Q}^n$ is the $n$-step transition matrix, i.e. $q^n_{i,j} = P(X_{k+n}=j|X_k=i)$ (this is called the Chapman-Kolmogorov equation and follows from LOTP). The rows of any transition matrix must sum to 1 (why?)
+\item[Transition matrix] For a Markov chain on $n$ states, the transition matrix (usually denoted $\mathbf{Q}$) is an $n$-by-$n$ matrix where $q_{i,j}$ (meaning the entry in the $i$-th row and $j$-th column) is $P(X_{k+1}=j|X_k=i)$ (this doesn't depend on $k$ by definition). The matrix $\mathbf{Q}^n$ is the $n$-step transition matrix, i.e. $q^n_{i,j} = P(X_{k+n}=j|X_k=i)$ (this is called the Chapman-Kolmogorov equation and follows from LOTP). The rows of any transition matrix must sum to 1 (why?).
 
 \item[Stationary distribution] If the chain has the stationary distribution at time $t = t_0$, then it will have the stationary distribution at all times $t \geq t_0$. The stationary distribution is a vector of probabilities.
 
